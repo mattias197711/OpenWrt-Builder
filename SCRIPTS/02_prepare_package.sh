@@ -76,8 +76,6 @@ wget -qO - https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/484
 patch -p1 < ../PATCH/BBRv2/openwrt-kmod-bbr2.patch
 cp -f ../PATCH/BBRv2/693-Add_BBRv2_congestion_control_for_Linux_TCP.patch ./target/linux/generic/hack-5.4/693-Add_BBRv2_congestion_control_for_Linux_TCP.patch
 wget -qO - https://github.com/openwrt/openwrt/commit/cfaf039b0e5cf4c38b88c20540c76b10eac3078d.patch | patch -p1
-# Patch jsonc
-patch -p1 < ../PATCH/jsonc/use_json_object_new_int64.patch
 # Patch dnsmasq filter AAAA
 patch -p1 < ../PATCH/dnsmasq/dnsmasq-add-filter-aaaa-option.patch
 patch -p1 < ../PATCH/dnsmasq/luci-add-filter-aaaa-option.patch
