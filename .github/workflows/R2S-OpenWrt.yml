@@ -53,7 +53,7 @@ jobs:
       run: |
         sudo -E rm -rf /etc/apt/sources.list.d
         sudo -E apt-get update -y
-        sudo -E apt-get install -y asciidoc autoconf automake autopoint binutils build-essential bzip2 ccache curl device-tree-compiler file flex gawk gettext git git-core haveged jq lib32gcc1 libc6-dev-i386 libelf-dev libglib2.0-dev libncurses5-dev libreadline-dev libssl-dev libtool libz-dev lrzsz msmtp nano p7zip p7zip-full patch python3 python3-pip python3-ply qemu-utils rsync scons subversion texinfo uglifyjs unzip upx vim wget xmlto zlib1g-dev
+        sudo -E apt-get install -y asciidoc autoconf automake autopoint binutils build-essential bzip2 ccache curl device-tree-compiler file flex gawk gettext git git-core haveged jq lib32gcc1 libc6-dev-i386 libelf-dev libglib2.0-dev libncurses5-dev libreadline-dev libssl-dev libtool libz-dev lrzsz msmtp nano p7zip p7zip-full patch python3 python3-pip python3-ply qemu-utils rsync scons subversion texinfo uglifyjs unzip vim wget xmlto zlib1g-dev
         wget -qO - https://raw.githubusercontent.com/friendlyarm/build-env-on-ubuntu-bionic/master/install.sh | sed 's/python-/python3-/g' | /bin/bash
         sudo -E apt-get clean -y
         git config --global user.name 'GitHub Actions' && git config --global user.email 'noreply@github.com'

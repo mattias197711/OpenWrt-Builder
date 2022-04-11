@@ -95,11 +95,6 @@ svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/openwrt-fullc
 pushd package/lean/openwrt-fullconenat
 patch -p2 <../../../../PATCH/firewall/fullcone6.patch
 popd
-# UPX
-svn export https://github.com/immortalwrt/immortalwrt/branches/master/tools/upx tools/upx
-svn export https://github.com/immortalwrt/immortalwrt/branches/master/tools/ucl tools/ucl
-sed -i '/patchelf pkgconf/i\tools-y += ucl upx'                                  ./tools/Makefile
-sed -i '\/autoconf\/compile :=/i\$(curdir)/upx/compile := $(curdir)/ucl/compile' ./tools/Makefile
 # 修复由于shadow-utils引起的管理页面修改密码功能失效的问题
 pushd feeds/luci
   patch -p1 < ../../../PATCH/let-luci-use-busybox-passwd.patch
