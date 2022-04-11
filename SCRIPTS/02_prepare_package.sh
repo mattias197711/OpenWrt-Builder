@@ -109,9 +109,13 @@ popd
 
 ### 3. 更新部分软件包 ###
 mkdir -p ./package/new/ ./package/lean/
+# 更换 golang 版本
+rm -rf ./feeds/packages/lang/golang
+svn export https://github.com/openwrt/packages/trunk/lang/golang                       feeds/packages/lang/golang
 # AutoCore & coremark
 rm -rf ./feeds/packages/utils/coremark
 svn export https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/package/emortal/autocore package/lean/autocore
+sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/lean/autocore/files/generic/luci-mod-status-autocore.json
 svn export https://github.com/immortalwrt/packages/trunk/utils/coremark                feeds/packages/utils/coremark
 # AutoReboot定时重启
 svn export https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-autoreboot package/lean/luci-app-autoreboot
@@ -161,12 +165,15 @@ ln -sf ../../../feeds/packages/net/kcptun                                       
 ln -sf ../../../feeds/packages/net/shadowsocks-rust                                  ./package/feeds/packages/shadowsocks-rust
 sed -i '/Build\/Compile/a\\t$(STAGING_DIR_HOST)/bin/upx --lzma --best $$(PKG_BUILD_DIR)/$(component)' feeds/packages/net/shadowsocks-rust/Makefile
 # OpenClash
+wget -qO - https://github.com/openwrt/openwrt/commit/efc8aff62cb244583a14c30f8d099103b75ced1d.patch | patch -p1
 git clone -b master --depth=1 https://github.com/vernesong/OpenClash                   package/new/luci-app-openclash
 # SSRP
 svn export https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus                 package/lean/luci-app-ssr-plus
 pushd package/lean
   patch -p1 < ../../../PATCH/0005-add-QiuSimons-Chnroute-to-chnroute-url.patch
 popd
+# ucode
+svn export https://github.com/openwrt/openwrt/trunk/package/utils/ucode              package/utils/ucode
 # 额外DDNS脚本
 sed -i '/boot()/,+2d' feeds/packages/net/ddns-scripts/files/etc/init.d/ddns
 svn export https://github.com/kiddin9/openwrt-packages/trunk/ddns-scripts-aliyun     package/lean/ddns-scripts_dnspod
