@@ -163,7 +163,6 @@ svn export https://github.com/immortalwrt/packages/trunk/net/kcptun             
 svn export https://github.com/fw876/helloworld/trunk/shadowsocks-rust                  feeds/packages/net/shadowsocks-rust
 ln -sf ../../../feeds/packages/net/kcptun                                            ./package/feeds/packages/kcptun
 ln -sf ../../../feeds/packages/net/shadowsocks-rust                                  ./package/feeds/packages/shadowsocks-rust
-sed -i '/Build\/Compile/a\\t$(STAGING_DIR_HOST)/bin/upx --lzma --best $$(PKG_BUILD_DIR)/$(component)' feeds/packages/net/shadowsocks-rust/Makefile
 # OpenClash
 wget -qO - https://github.com/openwrt/openwrt/commit/efc8aff62cb244583a14c30f8d099103b75ced1d.patch | patch -p1
 git clone -b master --depth=1 https://github.com/vernesong/OpenClash                   package/new/luci-app-openclash
@@ -186,7 +185,6 @@ rm -rf ./feeds/packages/net/zerotier
 svn export https://github.com/openwrt/packages/trunk/net/zerotier                    feeds/packages/net/zerotier
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-zerotier  feeds/luci/applications/luci-app-zerotier
 ln -sf ../../../feeds/luci/applications/luci-app-zerotier                          ./package/feeds/luci/luci-app-zerotier
-sed -i '/Default,one/a\\t$(STAGING_DIR_HOST)/bin/upx --lzma --best $(PKG_BUILD_DIR)/zerotier-one' feeds/packages/net/zerotier/Makefile
 rm -rf ./feeds/packages/net/zerotier/files/etc/init.d/zerotier
 # CPU限制
 svn export https://github.com/immortalwrt/packages/trunk/utils/cpulimit              feeds/packages/utils/cpulimit
