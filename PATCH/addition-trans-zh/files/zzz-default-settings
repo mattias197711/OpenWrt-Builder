@@ -3,8 +3,8 @@
 uci set system.@system[0].timezone='CST-8'
 uci set system.@system[0].zonename='Asia/Shanghai'
 uci del system.ntp.server
+uci add_list system.ntp.server='ntp1.tencent.com'
 uci add_list system.ntp.server='ntp.ntsc.ac.cn'
-uci add_list system.ntp.server='time2.cloud.tencent.com'
 uci add_list system.ntp.server='ntp.aliyun.com'
 uci add_list system.ntp.server='cn.ntp.org.cn'
 uci commit system
@@ -45,11 +45,18 @@ uci commit network
 # symlink for ip and wget-ssl command
 [ ! -f '/usr/bin/ip' ]       && [ -x '/sbin/ip' ]      && ln -sf /sbin/ip /usr/bin/ip
 [ ! -f '/usr/bin/wget-ssl' ] && [ -x '/usr/bin/wget' ] && ln -sf /usr/bin/wget /usr/bin/wget-ssl
-[ ! -f '/usr/bin/v2ray' ]    && [ -x '/usr/bin/xray' ] && ln -sf /usr/bin/xray /usr/bin/v2ray
 # opkg hold patched packages
 opkg flag hold dnsmasq-full
 opkg flag hold firewall
 opkg flag hold luci-app-firewall
+# disable wrtbwmon auto-start
+uci del wrtbwmon.general.enabled
+uci commit wrtbwmon
+# stop some services
+/etc/init.d/haproxy disable 2>/dev/null
+/etc/init.d/haproxy stop 2>/dev/null
+/etc/init.d/socat disable 2>/dev/null
+/etc/init.d/socat stop 2>/dev/null
 # delete luci cache
 rm -rf /tmp/luci-modulecache
 rm  -f /tmp/luci-indexcache
