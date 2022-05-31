@@ -4,7 +4,7 @@
 mkdir /tmp/uploads
 cd /tmp/uploads
 curl --proto '=https' --tlsv1.2 -sSf -O \
-     https://cdn.jsdelivr.net/gh/KaneGreen/OpenWrt-builder_R2S-x86@master/clean_flash.sh
+     https://fastly.jsdelivr.net/gh/KaneGreen/OpenWrt-builder_R2S-x86@master/clean_flash.sh
 ```
 ### 2. 上传固件
 使用 sftp 工具或 scp 命令将固件上传到 `/tmp/uploads` 目录下。  
@@ -15,13 +15,14 @@ curl --proto '=https' --tlsv1.2 -sSf -O \
 MD5 校验文件的文件名称格式为 `md5_????????.hash`。  
 SHA256 校验文件的文件名称格式为 `sha256_????????.hash`。
 ### 3. 执行刷机
-#### 3.1 不执行清盘
-若不打算对储存卡进行“写零”处理，请执行下面的命令。
+#### 3.1 默认刷写
+目前的 OpenWrt 镜像已默认包含写零区段，使用该方式刷机会清除配置。
+如果确定要操作，请执行下面的命令。
 ```bash
 /bin/bash /tmp/uploads/clean_flash.sh
 ```
-#### 3.2 执行清盘
-“写零”清盘适合于固件变动内容比较大的情况下使用，这种方法可能解决跨版本刷机时由于磁盘储存残留导致的奇特 BUG。  
+#### 3.2 额外写零
+对磁盘的一定区域进行额外的“写零”清盘后再刷机。  
 但是，此过程通常需要消耗较长时间。
 ```bash
 CLEANDISK=2 /bin/bash /tmp/uploads/clean_flash.sh
