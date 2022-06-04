@@ -132,6 +132,7 @@ rm -rf ./feeds/packages/net/xray-core ./feeds/packages/net/kcptun ./feeds/packag
 svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/srelay              package/lean/srelay
 svn export https://github.com/coolsnowwolf/packages/trunk/net/redsocks2                package/lean/redsocks2
 svn export https://github.com/coolsnowwolf/packages/trunk/net/shadowsocks-libev        package/lean/shadowsocks-libev
+svn export https://github.com/fw876/helloworld/trunk/dns2tcp                           package/new/dns2tcp
 svn export https://github.com/fw876/helloworld/trunk/naiveproxy                        package/lean/naiveproxy
 svn export https://github.com/fw876/helloworld/trunk/simple-obfs                       package/lean/simple-obfs
 svn export https://github.com/fw876/helloworld/trunk/v2ray-core                        package/lean/v2ray-core
