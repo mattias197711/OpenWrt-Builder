@@ -71,7 +71,7 @@ esac
 # grub2强制使用O2级别优化
 patch -p1 < ../PATCH/0001-grub2-use-O2.patch
 # offload bug fix
-wget -qO - https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/4849.patch | patch -p1
+wget -qO - https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/9940.patch | patch -p1
 # BBRv2
 patch -p1 < ../PATCH/BBRv2/openwrt-kmod-bbr2.patch
 cp -f ../PATCH/BBRv2/693-Add_BBRv2_congestion_control_for_Linux_TCP.patch ./target/linux/generic/hack-5.4/693-Add_BBRv2_congestion_control_for_Linux_TCP.patch
