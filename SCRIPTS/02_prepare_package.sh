@@ -8,15 +8,17 @@ alias wget="$(which wget) --https-only --retry-connrefused"
 echo "==> Now building: ${MYOPENWRTTARGET}"
 
 ### 1. 准备工作 ###
+# 获取额外代码
+git clone -b openwrt-21.02 --depth=1 https://github.com/immortalwrt/immortalwrt Immortalwrt_SRC/
 # R2S专用
 if [ "${MYOPENWRTTARGET}" = 'R2S' ] ; then
   sed -i 's,-mcpu=generic,-mcpu=cortex-a53+crypto,g' include/target.mk
   cp -f ../PATCH/mbedtls/100-Implements-AES-and-GCM-with-ARMv8-Crypto-Extensions.patch ./package/libs/mbedtls/patches/100-Implements-AES-and-GCM-with-ARMv8-Crypto-Extensions.patch
   # 采用immortalwrt的优化
   rm -rf ./target/linux/rockchip ./package/boot/uboot-rockchip ./package/boot/arm-trusted-firmware-rockchip-vendor
-  svn export https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/target/linux/rockchip                             target/linux/rockchip
-  svn export https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/package/boot/uboot-rockchip                       package/boot/uboot-rockchip
-  svn export https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/package/boot/arm-trusted-firmware-rockchip-vendor package/boot/arm-trusted-firmware-rockchip-vendor
+  cp -a Immortalwrt_SRC/target/linux/rockchip                             target/linux/rockchip
+  cp -a Immortalwrt_SRC/package/boot/uboot-rockchip                       package/boot/uboot-rockchip
+  cp -a Immortalwrt_SRC/package/boot/arm-trusted-firmware-rockchip-vendor package/boot/arm-trusted-firmware-rockchip-vendor
   # overclocking 1.5GHz
   cp -f ../PATCH/999-RK3328-enable-1512mhz-opp.patch target/linux/rockchip/patches-5.4/991-arm64-dts-rockchip-add-more-cpu-operating-points-for.patch
 fi
@@ -29,8 +31,8 @@ sed -i '/telephony/d' feeds.conf.default
 ./scripts/feeds install -a
 # something called magic
 rm -rf ./scripts/download.pl ./include/download.mk
-wget -P include/ https://raw.githubusercontent.com/immortalwrt/immortalwrt/openwrt-21.02/include/download.mk
-wget -P scripts/ https://raw.githubusercontent.com/immortalwrt/immortalwrt/openwrt-21.02/scripts/download.pl
+cp -a Immortalwrt_SRC/include/download.mk include/download.mk
+cp -a Immortalwrt_SRC/scripts/download.pl scripts/download.pl
 sed -i '/\.cn\//d'   scripts/download.pl
 sed -i '/aliyun/d'   scripts/download.pl
 sed -i '/cnpmjs/d'   scripts/download.pl
@@ -48,7 +50,7 @@ chmod +x scripts/download.pl
 case ${MYOPENWRTTARGET} in
   R2S)
     # show cpu model name
-    wget -P target/linux/generic/hack-5.4/ https://raw.githubusercontent.com/immortalwrt/immortalwrt/openwrt-21.02/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
+    cp -a Immortalwrt_SRC/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch target/linux/generic/hack-5.4/
     # R8152 驱动
     svn export https://github.com/immortalwrt/immortalwrt/branches/master/package/kernel/r8152 package/new/r8152
     sed -i 's,kmod-usb-net-rtl8152,kmod-usb-net-rtl8152-vendor,g' target/linux/rockchip/image/armv8.mk
@@ -59,7 +61,7 @@ case ${MYOPENWRTTARGET} in
     sed -i 's,eth0,eth1,g' target/linux/rockchip/armv8/base-files/etc/hotplug.d/iface/12-disable-rk3328-eth-offloading
     # 添加 GPU 驱动
     rm -rf  package/kernel/linux/modules/video.mk
-    wget -P package/kernel/linux/modules/ https://raw.githubusercontent.com/immortalwrt/immortalwrt/openwrt-21.02/package/kernel/linux/modules/video.mk
+    cp -a Immortalwrt_SRC/package/kernel/linux/modules/video.mk package/kernel/linux/modules/
     # 交换 LAN WAN
     patch -p1 < ../PATCH/R2S-swap-LAN-WAN.patch
     ;;
@@ -79,11 +81,9 @@ wget -qO - https://github.com/openwrt/openwrt/commit/cfaf039b0e5cf4c38b88c20540c
 # Patch dnsmasq filter AAAA
 patch -p1 < ../PATCH/dnsmasq/dnsmasq-add-filter-aaaa-option.patch
 patch -p1 < ../PATCH/dnsmasq/luci-add-filter-aaaa-option.patch
-cp  -f      ../PATCH/dnsmasq/900-add-filter-aaaa-option.patch ./package/network/services/dnsmasq/patches/900-add-filter-aaaa-option.patch
+cp -f       ../PATCH/dnsmasq/900-add-filter-aaaa-option.patch ./package/network/services/dnsmasq/patches/900-add-filter-aaaa-option.patch
 # Patch Kernel 以解决FullCone冲突
-pushd target/linux/generic/hack-5.4
-  wget https://raw.githubusercontent.com/immortalwrt/immortalwrt/openwrt-21.02/target/linux/generic/hack-5.4/952-net-conntrack-events-support-multiple-registrant.patch
-popd
+cp -a Immortalwrt_SRC/target/linux/generic/hack-5.4/952-net-conntrack-events-support-multiple-registrant.patch target/linux/generic/hack-5.4
 # Patch FireWall 以增添FullCone功能
 mkdir -p package/network/config/firewall/patches
 wget  -P package/network/config/firewall/patches/ https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/network/config/firewall/patches/fullconenat.patch
@@ -107,7 +107,7 @@ rm -rf ./feeds/packages/lang/golang
 svn export https://github.com/openwrt/packages/trunk/lang/golang                       feeds/packages/lang/golang
 # AutoCore & coremark
 rm -rf ./feeds/packages/utils/coremark
-svn export https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/package/emortal/autocore package/lean/autocore
+cp -a Immortalwrt_SRC/package/emortal/autocore package/lean/autocore
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/lean/autocore/files/generic/luci-mod-status-autocore.json
 svn export https://github.com/immortalwrt/packages/trunk/utils/coremark                feeds/packages/utils/coremark
 # AutoReboot定时重启
@@ -230,6 +230,8 @@ if [ "${MYOPENWRTTARGET}" = 'x86' ] ; then
 fi
 # 删除已有配置
 rm -rf .config
+# 删除多余的代码库
+rm -rf Immortalwrt_SRC/
 # 删除.svn目录
 find ./ -type d -name '.svn' -print0 | xargs -0 -s1024 /bin/rm -rf
 unalias wget
