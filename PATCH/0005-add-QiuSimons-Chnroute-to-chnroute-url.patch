@@ -8,7 +8,7 @@ Subject: [PATCH] add QiuSimons/Chnroute to chnroute_url
  1 file changed, 1 insertion(+)
 
 diff --git a/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/advanced.lua b/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/advanced.lua
-index 26e1db6..7133e68 100644
+index 6de68df..6ac762d 100644
 --- a/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/advanced.lua
 +++ b/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/advanced.lua
 @@ -54,6 +54,7 @@ o.default = "https://fastly.jsdelivr.net/gh/YW5vbnltb3Vz/domain-list-community@r
@@ -17,5 +17,5 @@ index 26e1db6..7133e68 100644
  o:value("https://ispip.clang.cn/all_cn_cidr.txt", translate("Clang.CN.CIDR"))
 +o:value("https://fastly.jsdelivr.net/gh/QiuSimons/Chnroute@master/dist/chnroute/chnroute.txt", translate("QiuSimons/Chnroute"))
  o.default = "https://ispip.clang.cn/all_cn.txt"
-
- o = s:option(Flag, "netflix_enable", translate("Enable Netflix Mode"))
+ 
+ o = s:option(ListValue, "default_packet_encoding", translate("Default Packet Encoding"))

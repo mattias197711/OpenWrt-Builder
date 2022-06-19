@@ -132,21 +132,11 @@ rm -rf ./feeds/packages/net/xray-core ./feeds/packages/net/kcptun ./feeds/packag
 svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/srelay              package/lean/srelay
 svn export https://github.com/coolsnowwolf/packages/trunk/net/redsocks2                package/lean/redsocks2
 svn export https://github.com/coolsnowwolf/packages/trunk/net/shadowsocks-libev        package/lean/shadowsocks-libev
-svn export https://github.com/fw876/helloworld/trunk/dns2tcp                           package/new/dns2tcp
-svn export https://github.com/fw876/helloworld/trunk/naiveproxy                        package/lean/naiveproxy
-svn export https://github.com/fw876/helloworld/trunk/simple-obfs                       package/lean/simple-obfs
-svn export https://github.com/fw876/helloworld/trunk/v2ray-core                        package/lean/v2ray-core
-svn export https://github.com/fw876/helloworld/trunk/v2ray-geodata                     package/new/v2ray-geodata
-svn export https://github.com/fw876/helloworld/trunk/v2ray-plugin                      package/lean/v2ray-plugin
-svn export https://github.com/fw876/helloworld/trunk/xray-core                         package/lean/xray-core
-svn export https://github.com/fw876/helloworld/trunk/xray-plugin                       package/lean/xray-plugin
 svn export https://github.com/xiaorouji/openwrt-passwall/trunk/brook                   package/new/brook
 svn export https://github.com/xiaorouji/openwrt-passwall/trunk/dns2socks               package/lean/dns2socks
-svn export https://github.com/xiaorouji/openwrt-passwall/trunk/hysteria                package/new/hysteria
 svn export https://github.com/xiaorouji/openwrt-passwall/trunk/ipt2socks               package/lean/ipt2socks
 svn export https://github.com/xiaorouji/openwrt-passwall/trunk/microsocks              package/lean/microsocks
 svn export https://github.com/xiaorouji/openwrt-passwall/trunk/pdnsd-alt               package/lean/pdnsd
-svn export https://github.com/xiaorouji/openwrt-passwall/trunk/shadowsocksr-libev      package/lean/shadowsocksr-libev
 svn export https://github.com/xiaorouji/openwrt-passwall/trunk/ssocks                  package/new/ssocks
 svn export https://github.com/xiaorouji/openwrt-passwall/trunk/tcping                  package/lean/tcping
 svn export https://github.com/xiaorouji/openwrt-passwall/trunk/trojan                  package/lean/trojan
@@ -154,17 +144,31 @@ svn export https://github.com/xiaorouji/openwrt-passwall/trunk/trojan-go        
 svn export https://github.com/xiaorouji/openwrt-passwall/trunk/trojan-plus             package/new/trojan-plus
 svn export https://github.com/immortalwrt/packages/trunk/net/proxychains-ng            package/lean/proxychains-ng
 svn export https://github.com/immortalwrt/packages/trunk/net/kcptun                    feeds/packages/net/kcptun
-svn export https://github.com/fw876/helloworld/trunk/shadowsocks-rust                  feeds/packages/net/shadowsocks-rust
+git clone -b master --depth=1 https://github.com/fw876/helloworld                      SSRP_SRC
+mv SSRP_SRC/dns2tcp                                                                    package/new/dns2tcp
+mv SSRP_SRC/hysteria                                                                   package/new/hysteria
+mv SSRP_SRC/naiveproxy                                                                 package/lean/naiveproxy
+mv SSRP_SRC/sagernet-core                                                              package/new/sagernet-core
+mv SSRP_SRC/shadowsocksr-libev                                                         package/lean/shadowsocksr-libev
+mv SSRP_SRC/simple-obfs                                                                package/lean/simple-obfs
+mv SSRP_SRC/v2ray-core                                                                 package/lean/v2ray-core
+mv SSRP_SRC/v2ray-geodata                                                              package/new/v2ray-geodata
+mv SSRP_SRC/v2ray-plugin                                                               package/lean/v2ray-plugin
+mv SSRP_SRC/v2raya                                                                     package/new/v2raya
+mv SSRP_SRC/xray-core                                                                  package/lean/xray-core
+mv SSRP_SRC/xray-plugin                                                                package/lean/xray-plugin
+mv SSRP_SRC/luci-app-ssr-plus                                                          package/lean/luci-app-ssr-plus
+mv SSRP_SRC/shadowsocks-rust                                                           feeds/packages/net/shadowsocks-rust
 ln -sf ../../../feeds/packages/net/kcptun                                            ./package/feeds/packages/kcptun
 ln -sf ../../../feeds/packages/net/shadowsocks-rust                                  ./package/feeds/packages/shadowsocks-rust
-# OpenClash
-wget -qO - https://github.com/openwrt/openwrt/commit/efc8aff62cb244583a14c30f8d099103b75ced1d.patch | patch -p1
-git clone -b master --depth=1 https://github.com/vernesong/OpenClash                   package/new/luci-app-openclash
-# SSRP
-svn export https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus                 package/lean/luci-app-ssr-plus
+rm -rf SSRP_SRC
+# SSRP Patch
 pushd package/lean
   patch -p1 < ../../../PATCH/0005-add-QiuSimons-Chnroute-to-chnroute-url.patch
 popd
+# OpenClash
+wget -qO - https://github.com/openwrt/openwrt/commit/efc8aff62cb244583a14c30f8d099103b75ced1d.patch | patch -p1
+git clone -b master --depth=1 https://github.com/vernesong/OpenClash                   package/new/luci-app-openclash
 # ucode
 svn export https://github.com/openwrt/openwrt/trunk/package/utils/ucode              package/utils/ucode
 # 额外DDNS脚本
