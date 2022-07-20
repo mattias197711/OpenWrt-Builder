@@ -207,20 +207,20 @@ cp -f ../PRECONFS/vimrc    ./package/base-files/files/root/.vimrc
 cp -f ../PRECONFS/screenrc ./package/base-files/files/root/.screenrc
 
 ### 4. 最后的收尾工作 ###
-# vermagic
-LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' | grep -v 'rc' | grep 'v21' | sort -r | head -n 1)
-LATESTRELEASE=${LATESTRELEASE:2:-1}
-case ${MYOPENWRTTARGET} in
-  R2S)
-    wget https://downloads.openwrt.org/releases/${LATESTRELEASE}/targets/rockchip/armv8/packages/Packages.gz
-    ;;
-  x86)
-    wget https://downloads.openwrt.org/releases/${LATESTRELEASE}/targets/x86/64/packages/Packages.gz
-    ;;
-esac
-zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' > .vermagic
-sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
-rm -f Packages.gz
+## vermagic
+#LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' | grep -v 'rc' | grep 'v21' | sort -r | head -n 1)
+#LATESTRELEASE=${LATESTRELEASE:2:-1}
+#case ${MYOPENWRTTARGET} in
+#  R2S)
+#    wget https://downloads.openwrt.org/releases/${LATESTRELEASE}/targets/rockchip/armv8/packages/Packages.gz
+#    ;;
+#  x86)
+#    wget https://downloads.openwrt.org/releases/${LATESTRELEASE}/targets/x86/64/packages/Packages.gz
+#    ;;
+#esac
+#zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' > .vermagic
+#sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
+#rm -f Packages.gz
 # 最大连接
 sed -i 's/16384/65535/g' package/kernel/linux/files/sysctl-nf-conntrack.conf
 echo 'net.netfilter.nf_conntrack_helper = 1' >> package/kernel/linux/files/sysctl-nf-conntrack.conf
