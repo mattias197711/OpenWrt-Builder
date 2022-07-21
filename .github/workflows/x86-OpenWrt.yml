@@ -91,28 +91,32 @@ jobs:
     - name: Make Download
       run: |
         df -h
-        cd openwrt
-        make download -j$(($(nproc) * 8))
+        cd openwrt && make download -j$(($(nproc) * 8))
         echo $?
 
     - name: Make Toolchain
+      id: maketoolchain
+      continue-on-error: true
       run: |
         df -h
-        cd openwrt
-        make toolchain/install -j$(($(nproc) + 1))
+        cd openwrt && make toolchain/install -j$(($(nproc) + 1))
         echo $?
         /bin/ls -AF staging_dir/toolchain-*/bin/
+
+    - name: If Toolchain Error
+      if: steps.maketoolchain.outcome == 'failure'
+      run: |
+        cd openwrt && make toolchain/install -j1 V=s
 
     - name: Compile Openwrt
       id: compileopenwrt
       continue-on-error: true
       run: |
         df -h
-        cd openwrt
-        make -j$(($(nproc) + 1)) V=w
+        cd openwrt && make -j$(($(nproc) + 1)) V=w
         echo $?
 
-    - name: If Error
+    - name: If Compiling Error
       if: steps.compileopenwrt.outcome == 'failure'
       run: |
         cat openwrt/.config
