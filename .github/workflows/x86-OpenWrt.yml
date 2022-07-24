@@ -58,7 +58,7 @@ jobs:
         git config --global user.name 'GitHub Actions' && git config --global user.email 'noreply@github.com'
         df -h
 
-    - name: Prepare Openwrt
+    - name: Prepare OpenWrt
       run: |
         sudo chown -R runner:docker ./
         cp -f ./SCRIPTS/01_get_ready.sh ./01_get_ready.sh
