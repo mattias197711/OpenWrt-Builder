@@ -14,9 +14,9 @@
 | NetData 监控 | 流量监控 | 释放内存 | 定时重启 | CPU 占用率限制 | 硬盘休眠 |
 | SSRP | OpenClash | 动态 DNS | WOL 网络唤醒 | WireGuard | ZeroTier |
 | Aria2 | Samba4 | uHTTPd 配置 | UPnP 配置 | socat | SQM QoS |
-| BBRv2 (1) | FullCone NAT (2) | Offloading (2) | - | - | - |
+| BBR (1) | FullCone NAT (2) | Offloading (2) | - | - | - |
 
-1. BBR (v2alpha) 已默认启用。
+1. BBR 已默认启用。
 2. FullCone NAT 已默认启用（其选项在防火墙设置页面中）；软件 Offloading 需要在防火墙设置页面中，默认没有启用。  
 3. FTP 支持由 vsftpd-tls 提供。没用图形界面，须使用命令行手工配置。建议开启TLS以提高安全性。  
 4. 以下组件在本固件中不包含：  

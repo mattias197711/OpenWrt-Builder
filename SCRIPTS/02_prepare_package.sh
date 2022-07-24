@@ -72,10 +72,6 @@ case ${MYOPENWRTTARGET} in
 esac
 # grub2强制使用O2级别优化
 patch -p1 < ../PATCH/0001-grub2-use-O2.patch
-# BBRv2
-patch -p1 < ../PATCH/BBRv2/openwrt-kmod-bbr2.patch
-cp -f ../PATCH/BBRv2/693-Add_BBRv2_congestion_control_for_Linux_TCP.patch ./target/linux/generic/hack-5.4/693-Add_BBRv2_congestion_control_for_Linux_TCP.patch
-wget -qO - https://github.com/openwrt/openwrt/commit/cfaf039b0e5cf4c38b88c20540c76b10eac3078d.patch | patch -p1
 # Patch dnsmasq filter AAAA
 patch -p1 < ../PATCH/dnsmasq/dnsmasq-add-filter-aaaa-option.patch
 patch -p1 < ../PATCH/dnsmasq/luci-add-filter-aaaa-option.patch
