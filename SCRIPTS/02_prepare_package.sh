@@ -151,6 +151,7 @@ mv SSRP_SRC/v2ray-plugin                                                        
 mv SSRP_SRC/v2raya                                                                     package/new/v2raya
 mv SSRP_SRC/xray-core                                                                  package/lean/xray-core
 mv SSRP_SRC/xray-plugin                                                                package/lean/xray-plugin
+mv SSRP_SRC/lua-neturl                                                                 package/new/lua-neturl
 mv SSRP_SRC/luci-app-ssr-plus                                                          package/lean/luci-app-ssr-plus
 mv SSRP_SRC/shadowsocks-rust                                                           feeds/packages/net/shadowsocks-rust
 ln -sf ../../../feeds/packages/net/kcptun                                            ./package/feeds/packages/kcptun
