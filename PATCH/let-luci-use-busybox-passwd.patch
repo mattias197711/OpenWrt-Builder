@@ -9,10 +9,10 @@ make "changes the administrator password" compatible with `shadow-utils`
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/modules/luci-base/luasrc/sys.lua b/modules/luci-base/luasrc/sys.lua
-index af345a1..7498ca5 100644
+index e6eb762..3e08a70 100644
 --- a/modules/luci-base/luasrc/sys.lua
 +++ b/modules/luci-base/luasrc/sys.lua
-@@ -525,7 +525,7 @@ function user.checkpasswd(username, pass)
+@@ -531,7 +531,7 @@ function user.checkpasswd(username, pass)
  end
  
  function user.setpasswd(username, password)

@@ -9,8 +9,7 @@ uci add_list system.ntp.server='ntp.aliyun.com'
 uci add_list system.ntp.server='cn.ntp.org.cn'
 uci commit system
 # feed
-sed -i '/natelol/d'                                               /etc/opkg/distfeeds.conf
-sed -i 's,downloads.openwrt.org,mirrors.cloud.tencent.com/lede,g' /etc/opkg/distfeeds.conf
+sed -i 's,downloads.openwrt.org,mirrors.cloud.tencent.com/openwrt,g' /etc/opkg/distfeeds.conf
 # uhttpd
 uci set uhttpd.main.rfc1918_filter='0'
 uci commit uhttpd
@@ -41,10 +40,12 @@ echo 'log-facility=/dev/null' >> /etc/dnsmasq.conf
 uci commit dhcp
 # enable Packet Steering
 uci set network.globals.packet_steering='1'
+uci set network.lan.ip6assign='64'
 uci commit network
 # symlink for ip and wget-ssl command
-[ ! -f '/usr/bin/ip' ]       && [ -x '/sbin/ip' ]      && ln -sf /sbin/ip /usr/bin/ip
-[ ! -f '/usr/bin/wget-ssl' ] && [ -x '/usr/bin/wget' ] && ln -sf /usr/bin/wget /usr/bin/wget-ssl
+[ ! -f '/usr/bin/ip' ]       && [ -x '/sbin/ip' ]           && ln -sf /sbin/ip /usr/bin/ip
+[ ! -f '/usr/bin/wget-ssl' ] && [ -x '/usr/bin/wget' ]      && ln -sf /usr/bin/wget /usr/bin/wget-ssl
+[ ! -f '/usr/sbin/trojan' ]  && [ -x '/usr/bin/trojan-go' ] && ln -sf /usr/bin/trojan-go /usr/bin/trojan
 # opkg hold patched packages
 opkg flag hold dnsmasq-full
 opkg flag hold firewall

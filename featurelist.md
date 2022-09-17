@@ -53,6 +53,6 @@ ttyd（网页终端）、Docker、单线/多线多拨、KMS 服务器、访问�
 需要 OLED 功能的用户，自行寻找/选择适合的软件包安装即可，同时不要忘记安装依赖包 i2c-tools。
 
 ### 区别
-x86 版相比于 R2S 版，添加了 irqbalance，同时 x86 具有 AMD 和 Intel 的 CPU 微码。  
+x86 版具有 AMD 和 Intel 的 CPU 微码。  
 而 R2S 版比 x86 版，添加了 CPU 频率调节。
 x86 版的 UPnP 默认没有开启，有需要的请手动开启。
