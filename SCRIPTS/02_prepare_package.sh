@@ -228,6 +228,9 @@ esac
 zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' > .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 rm -f Packages.gz
+# nftables 额外规则
+mkdir -p files/usr/share/nftables.d/chain-pre/forward/
+cp -a ../PATCH/nftables/10-ios.nft files/usr/share/nftables.d/chain-pre/forward/
 # 最大连接
 sed -i 's/16384/65535/g' package/kernel/linux/files/sysctl-nf-conntrack.conf
 echo 'net.netfilter.nf_conntrack_helper = 1' >> package/kernel/linux/files/sysctl-nf-conntrack.conf

@@ -13,7 +13,6 @@ CONFIG_KERNEL_ARM_PMU=y
 CONFIG_KERNEL_PERF_EVENTS=y
 # CONFIG_KERNEL_CGROUPS is not set
 CONFIG_DEVEL=y
-CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -ftree-vectorize"
 CONFIG_PACKAGE_block-mount=y
 # CONFIG_PACKAGE_dnsmasq is not set
 CONFIG_PACKAGE_dnsmasq-full=y
