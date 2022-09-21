@@ -11,7 +11,7 @@ MY_svn_export () {
     sleep "${retry_count}0"
   done
   set -x
-  [ ${MY_state} -nq 0 ]
+  [ ${MY_state} -ne 0 ]
 }
 
 # 如果没有环境变量或无效，则默认构建R2S版本
