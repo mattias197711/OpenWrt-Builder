@@ -1,9 +1,7 @@
 #!/bin/bash
-set -x
-set -e
 alias wget="$(which wget) --https-only --retry-connrefused"
-
 MY_svn_export () {
+  set +x
   local MY_state=0
   for retry_count in {1..5} ; do
     if svn export "$1" "$2" ; then
@@ -12,15 +10,16 @@ MY_svn_export () {
     fi
     sleep "${retry_count}0"
   done
-  if [ ${MY_state} -eq 0 ] ; then
-    false
-  fi
+  set -x
+  [ ${MY_state} -nq 0 ]
 }
 
 # 如果没有环境变量或无效，则默认构建R2S版本
 [ -f "../SEED/${MYOPENWRTTARGET}.config.seed" ] || MYOPENWRTTARGET='R2S'
 echo "==> Now building: ${MYOPENWRTTARGET}"
 
+set -e
+set -x
 ### 1. 准备工作 ###
 # 获取额外代码
 git clone -b master --depth 1 https://github.com/immortalwrt/immortalwrt Immortalwrt_SRC/
