@@ -55,7 +55,7 @@ case ${MYOPENWRTTARGET} in
     rm -rf ./target/linux/rockchip/Makefile
     wget -P target/linux/rockchip/ https://raw.githubusercontent.com/openwrt/openwrt/openwrt-22.03/target/linux/rockchip/Makefile
     rm -rf ./target/linux/rockchip/patches-5.10/002-net-usb-r8152-add-LED-configuration-from-OF.patch
-    rm -rf ./target/linux/rockchip/patches-5.10/003-dt-bindings-net-add-RTL8152-binding-documentation.patch  
+    rm -rf ./target/linux/rockchip/patches-5.10/003-dt-bindings-net-add-RTL8152-binding-documentation.patch
     rm -rf ./package/boot/uboot-rockchip
     svn export https://github.com/coolsnowwolf/lede/trunk/package/boot/uboot-rockchip package/boot/uboot-rockchip
     sed -i '/r2c-rk3328:arm-trusted/d' package/boot/uboot-rockchip/Makefile
@@ -63,6 +63,9 @@ case ${MYOPENWRTTARGET} in
     # 添加 GPU 驱动
     rm -rf  package/kernel/linux/modules/video.mk
     cp -a Immortalwrt_SRC/package/kernel/linux/modules/video.mk package/kernel/linux/modules/
+    # 用假的dts填补缺失的rk3568
+    mkdir -p target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
+    cp  -f ../PATCH/dts/*.dts target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
     # 其他内核配置
     echo '
 # CONFIG_SHORTCUT_FE is not set
@@ -94,7 +97,7 @@ rm -rf ./package/libs/libnftnl ./package/network/utils/nftables
 svn export https://github.com/wongsyrone/lede-1/trunk/package/libs/libnftnl          package/libs/libnftnl
 svn export https://github.com/wongsyrone/lede-1/trunk/package/network/utils/nftables package/network/utils/nftables
 # FW3
-mkdir -p package/network/config/firewall/patches
+mkdir -p package/network/config/firewall/patches/
 wget  -P package/network/config/firewall/patches/ https://raw.githubusercontent.com/immortalwrt/immortalwrt/openwrt-21.02/package/network/config/firewall/patches/100-fullconenat.patch
 # Patch LuCI 以增添FullCone开关
 patch -p1 < ../PATCH/firewall/luci-app-firewall_add_fullcone.patch
