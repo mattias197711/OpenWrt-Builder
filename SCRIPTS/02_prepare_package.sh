@@ -138,7 +138,7 @@ svn export https://github.com/QiuSimons/OpenWrt-Add/trunk/luci-app-irqbalance   
 # socat
 svn export https://github.com/Lienol/openwrt-package/trunk/luci-app-socat              package/new/luci-app-socat
 # SSRP依赖
-rm -rf ./feeds/packages/net/xray-core ./feeds/packages/net/kcptun ./feeds/packages/net/shadowsocks-libev ./feeds/packages/net/proxychains-ng ./feeds/packages/net/shadowsocks-rust
+rm -rf ./feeds/packages/net/xray-core ./feeds/packages/net/kcptun ./feeds/packages/net/shadowsocks-libev ./feeds/packages/net/proxychains-ng ./feeds/packages/net/shadowsocks-rust ./feeds/packages/net/v2raya
 svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/srelay              package/lean/srelay
 svn export https://github.com/coolsnowwolf/packages/trunk/net/redsocks2                package/lean/redsocks2
 svn export https://github.com/coolsnowwolf/packages/trunk/net/shadowsocks-libev        package/lean/shadowsocks-libev
