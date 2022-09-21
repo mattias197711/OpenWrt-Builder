@@ -67,7 +67,7 @@ function auto_create_acl(){
 	done
 }
 
-while getopts "achml:n:p:" input_arg  
+while getopts "achml:n:p:" input_arg
 do
 	case $input_arg in
 	a)

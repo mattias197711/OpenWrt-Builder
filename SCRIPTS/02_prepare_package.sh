@@ -188,7 +188,7 @@ sed -i '/boot()/,+2d' feeds/packages/net/ddns-scripts/files/etc/init.d/ddns
 svn export https://github.com/jjm2473/openwrt-third/trunk/ddns-scripts_dnspod        package/lean/ddns-scripts_dnspod
 svn export https://github.com/jjm2473/openwrt-third/trunk/ddns-scripts_aliyun        package/lean/ddns-scripts_aliyun
 # Zerotier
-rm -rf ./feeds/packages/net/zerotier 
+rm -rf ./feeds/packages/net/zerotier
 svn export https://github.com/immortalwrt/packages/trunk/net/zerotier                feeds/packages/net/zerotier
 svn export https://github.com/immortalwrt/luci/trunk/applications/luci-app-zerotier  feeds/luci/applications/luci-app-zerotier
 ln -sf ../../../feeds/luci/applications/luci-app-zerotier                          ./package/feeds/luci/luci-app-zerotier
