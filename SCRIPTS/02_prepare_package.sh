@@ -47,18 +47,19 @@ chmod +x scripts/download.pl
 
 ### 2. 必要的Patch ###
 mkdir -p ./package/new/ ./package/lean/
+# R8152 网卡驱动
+cp -a Immortalwrt_SRC/package/kernel/r8152 package/new/r8152
+# R8168 网卡驱动
+git clone -b master --depth 1 https://github.com/BROBIRD/openwrt-r8168 package/new/r8168
+# R8125 网卡驱动
+MY_svn_export https://github.com/coolsnowwolf/lede/trunk/package/lean/r8125 package/new/r8125
 # 根据体系调整
 case ${MYOPENWRTTARGET} in
   R2S)
     # 显示 ARM64 CPU 型号
     cp -a Immortalwrt_SRC/target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch target/linux/generic/hack-5.10/
-    # R8152 网卡驱动
-    cp -a Immortalwrt_SRC/package/kernel/r8152 package/new/r8152
     # R8168 网卡驱动
-    git clone -b master --depth 1 https://github.com/BROBIRD/openwrt-r8168.git package/new/r8168
     patch -p1 < ../PATCH/r8168/r8168-fix_LAN_led-for_r4s-from_TL.patch
-    # R8125 网卡驱动
-    MY_svn_export https://github.com/coolsnowwolf/lede/trunk/package/lean/r8125 package/new/r8125
     # 更换 UBoot 以及 Target
     sed -i 's,-mcpu=generic,-mcpu=cortex-a53+crypto,g' include/target.mk
     rm -rf ./target/linux/rockchip
@@ -139,8 +140,8 @@ MY_svn_export https://github.com/coolsnowwolf/lede/trunk/package/lean/ipv6-helpe
 # 清理内存
 MY_svn_export https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-ramfree    package/lean/luci-app-ramfree
 # 流量监视
-git clone -b master --depth 1 https://github.com/brvphoenix/wrtbwmon.git                  package/new/wrtbwmon
-git clone -b master --depth 1 https://github.com/brvphoenix/luci-app-wrtbwmon.git         package/new/luci-app-wrtbwmon
+git clone -b master --depth 1 https://github.com/brvphoenix/wrtbwmon                      package/new/wrtbwmon
+git clone -b master --depth 1 https://github.com/brvphoenix/luci-app-wrtbwmon             package/new/luci-app-wrtbwmon
 # Haproxy
 rm -rf ./feeds/packages/net/haproxy
 MY_svn_export https://github.com/openwrt/packages/trunk/net/haproxy                       feeds/packages/net/haproxy
@@ -214,6 +215,8 @@ if [ "${MYOPENWRTTARGET}" = 'R2S' ] ; then
   MY_svn_export https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq feeds/luci/applications/luci-app-cpufreq
   ln -sf ../../../feeds/luci/applications/luci-app-cpufreq                            ./package/feeds/luci/luci-app-cpufreq
 fi
+# jq
+sed -i 's,9625784cf2e4fd9842f1d407681ce4878b5b0dcddbcd31c6135114a30c71e6a8,5de8c8e29aaa3fb9cc6b47bb27299f271354ebb72514e3accadc7d38b5bbaa72,g' feeds/packages/utils/jq/Makefile
 # 翻译及部分功能优化
 MY_svn_export https://github.com/QiuSimons/OpenWrt-Add/trunk/addition-trans-zh          package/lean/lean-translate
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g'                   package/lean/lean-translate/Makefile
