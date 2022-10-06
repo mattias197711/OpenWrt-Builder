@@ -103,8 +103,8 @@ cp -a Immortalwrt_SRC/target/linux/generic/hack-5.10/952-net-conntrack-events-su
 # Patch FireWall 以增添FullCone功能
 # FW4
 rm -rf ./package/network/config/firewall4
-cp -a Immortalwrt_SRC/package/network/config/firewall4 package/network/config/firewall4
-cp -f ../PATCH/firewall/990-unconditionally-allow-ct-status-dnat.patch ./package/network/config/firewall4/patches/990-unconditionally-allow-ct-status-dnat.patch
+cp -af Immortalwrt_SRC/package/network/config/firewall4                 ./package/network/config/firewall4
+cp -af ../PATCH/firewall/990-unconditionally-allow-ct-status-dnat.patch ./package/network/config/firewall4/patches/990-unconditionally-allow-ct-status-dnat.patch
 rm -rf ./package/libs/libnftnl ./package/network/utils/nftables
 MY_svn_export https://github.com/wongsyrone/lede-1/trunk/package/libs/libnftnl          package/libs/libnftnl
 MY_svn_export https://github.com/wongsyrone/lede-1/trunk/package/network/utils/nftables package/network/utils/nftables
