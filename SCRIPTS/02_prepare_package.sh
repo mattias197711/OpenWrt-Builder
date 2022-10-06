@@ -133,7 +133,8 @@ cp -a Immortalwrt_SRC/package/emortal/autocore package/lean/autocore
 pushd package/lean
   patch -p3 < ../../../PATCH/autocore/0001-fix.patch
 popd
-wget -P package/lean/autocore/files/generic/ https://raw.githubusercontent.com/immortalwrt/luci/master/modules/luci-base/root/usr/libexec/rpcd/luci
+wget  -P  package/lean/autocore/files/generic/ https://raw.githubusercontent.com/immortalwrt/luci/master/modules/luci-base/root/usr/libexec/rpcd/luci
+chmod 755 package/lean/autocore/files/generic/luci
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/lean/autocore/files/generic/luci-mod-status-autocore.json
 sed -i '/"$threads"/d' package/lean/autocore/files/x86/autocore
 MY_svn_export https://github.com/immortalwrt/packages/trunk/utils/coremark                feeds/packages/utils/coremark
