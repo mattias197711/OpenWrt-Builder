@@ -130,8 +130,8 @@ MY_svn_export https://github.com/openwrt/packages/trunk/lang/golang             
 # AutoCore & coremark
 rm -rf ./feeds/packages/utils/coremark
 cp -a Immortalwrt_SRC/package/emortal/autocore package/lean/autocore
-pushd package/lean/autocore
-  patch -p1 < ../../../../PATCH/autocore/0001-fix.patch
+pushd package/lean
+  patch -p3 < ../../../PATCH/autocore/0001-fix.patch
 popd
 wget -P package/lean/autocore/files/generic/ https://raw.githubusercontent.com/immortalwrt/luci/master/modules/luci-base/root/usr/libexec/rpcd/luci
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/lean/autocore/files/generic/luci-mod-status-autocore.json
