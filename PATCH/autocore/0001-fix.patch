@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KaneGreen <737445366KG@Gmail.com>
+Date: Mon, 17 Sep 2001 00:00:00 +0000
+Subject: [PATCH] fix master branch move functions
+
+---
+ package/emortal/autocore/Makefile                            | 1 +
+ package/emortal/autocore/files/generic/090-cover-index_files | 2 ++
+ 2 files changed, 3 insertions(+)
+
+diff --git a/package/emortal/autocore/Makefile b/package/emortal/autocore/Makefile
+index d2c493d1b..8242911ea 100644
+--- a/package/emortal/autocore/Makefile
++++ b/package/emortal/autocore/Makefile
+@@ -38,6 +38,7 @@ endef
+ define Package/autocore/install/Default
+ 	$(INSTALL_DIR) $(1)/etc
+ 	$(CP) ./files/generic/10_system.js $(1)/etc/rpcd_10_system.js
++	$(CP) ./files/generic/luci $(1)/etc/rpcd_luci
+ 
+ 	$(INSTALL_DIR) $(1)/etc/uci-defaults
+ 	$(INSTALL_BIN) ./files/generic/090-cover-index_files $(1)/etc/uci-defaults/
+diff --git a/package/emortal/autocore/files/generic/090-cover-index_files b/package/emortal/autocore/files/generic/090-cover-index_files
+index 01b5976f1..848005943 100755
+--- a/package/emortal/autocore/files/generic/090-cover-index_files
++++ b/package/emortal/autocore/files/generic/090-cover-index_files
+@@ -2,6 +2,8 @@
+ 
+ [ ! -f '/etc/rpcd_10_system.js' ] || \
+ 	mv -f '/etc/rpcd_10_system.js' '/www/luci-static/resources/view/status/include/10_system.js'
++[ ! -f '/etc/rpcd_luci' ] || \
++	mv -f '/etc/rpcd_luci' '/usr/libexec/rpcd/luci'
+ /etc/init.d/rpcd restart
+ 
+ exit 0
