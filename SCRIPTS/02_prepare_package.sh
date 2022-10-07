@@ -80,9 +80,25 @@ case ${MYOPENWRTTARGET} in
     # 添加 GPU 驱动
     rm -rf  package/kernel/linux/modules/video.mk
     cp -a Immortalwrt_SRC/package/kernel/linux/modules/video.mk package/kernel/linux/modules/
+    echo '
+# CONFIG_IR_SANYO_DECODER is not set
+# CONFIG_IR_SHARP_DECODER is not set
+# CONFIG_IR_MCE_KBD_DECODER is not set
+# CONFIG_IR_XMP_DECODER is not set
+# CONFIG_IR_IMON_DECODER is not set
+# CONFIG_IR_RCMM_DECODER is not set
+# CONFIG_IR_SPI is not set
+# CONFIG_IR_GPIO_TX is not set
+# CONFIG_IR_PWM_TX is not set
+# CONFIG_IR_SERIAL is not set
+# CONFIG_IR_SIR is not set
+# CONFIG_RC_XBOX_DVD is not set
+# CONFIG_IR_TOY is not set
+# CONFIG_MEDIA_CEC_RC is not set
+' >> ./target/linux/rockchip/armv8/config-5.10
     # 用假的dts填补缺失的rk3568
     mkdir -p target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
-    cp  -f ../PATCH/dts/*.dts target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
+    cp -f ../PATCH/dts/*.dts target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
     # 其他内核配置
     echo '
 # CONFIG_SHORTCUT_FE is not set
