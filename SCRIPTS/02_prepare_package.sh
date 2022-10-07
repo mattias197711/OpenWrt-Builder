@@ -24,6 +24,11 @@ set -x
 # 使用O2级别的优化
 sed -i 's/ -Os / -O2 -Wl,--gc-sections /g' include/target.mk
 wget -qO - https://github.com/openwrt/openwrt/commit/8249a8c54e26aa2039258ee4307ea0cc18edab78.patch | patch -p1
+# feed使用GitHub
+sed -i 's,git.openwrt.org/feed/packages,github.com/openwrt/packages,g'   ./feeds.conf.default
+sed -i 's,git.openwrt.org/project/luci,github.com/openwrt/luci,g'        ./feeds.conf.default
+sed -i 's,git.openwrt.org/feed/routing,github.com/openwrt/routing,g'     ./feeds.conf.default
+sed -i 's,git.openwrt.org/feed/telephony,github.com/openwrt/telephony,g' ./feeds.conf.default
 # 更新feed
 ./scripts/feeds update -a
 ./scripts/feeds install -a
@@ -128,13 +133,13 @@ popd
 rm -rf ./feeds/packages/lang/golang
 MY_svn_export https://github.com/openwrt/packages/trunk/lang/golang                       feeds/packages/lang/golang
 # AutoCore & coremark
-rm -rf ./feeds/packages/utils/coremark
 cp -a Immortalwrt_SRC/package/emortal/autocore package/lean/autocore
 pushd package/lean
   patch -p1 < ../../../PATCH/autocore/0001-fix.patch
 popd
 wget  -O  feeds/luci/modules/luci-base/root/usr/libexec/rpcd/luci https://raw.githubusercontent.com/immortalwrt/luci/master/modules/luci-base/root/usr/libexec/rpcd/luci
 chmod 755 feeds/luci/modules/luci-base/root/usr/libexec/rpcd/luci
+rm -rf ./feeds/packages/utils/coremark
 MY_svn_export https://github.com/immortalwrt/packages/trunk/utils/coremark                feeds/packages/utils/coremark
 # AutoReboot定时重启
 MY_svn_export https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-autoreboot package/lean/luci-app-autoreboot
