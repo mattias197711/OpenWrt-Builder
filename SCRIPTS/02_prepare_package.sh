@@ -21,14 +21,14 @@ echo "==> Now building: ${MYOPENWRTTARGET}"
 set -e
 set -x
 ### 1. 准备工作 ###
-# 获取额外代码
-git clone -b master --depth 1 https://github.com/immortalwrt/immortalwrt Immortalwrt_SRC/
 # 使用O2级别的优化
 sed -i 's/ -Os / -O2 -Wl,--gc-sections /g' include/target.mk
 wget -qO - https://github.com/openwrt/openwrt/commit/8249a8c54e26aa2039258ee4307ea0cc18edab78.patch | patch -p1
 # 更新feed
 ./scripts/feeds update -a
 ./scripts/feeds install -a
+# 获取额外代码
+git clone -b master --depth 1 https://github.com/immortalwrt/immortalwrt Immortalwrt_SRC/
 # something called magic
 rm -rf ./scripts/download.pl ./include/download.mk
 cp -a Immortalwrt_SRC/include/download.mk include/
@@ -131,12 +131,10 @@ MY_svn_export https://github.com/openwrt/packages/trunk/lang/golang             
 rm -rf ./feeds/packages/utils/coremark
 cp -a Immortalwrt_SRC/package/emortal/autocore package/lean/autocore
 pushd package/lean
-  patch -p3 < ../../../PATCH/autocore/0001-fix.patch
+  patch -p1 < ../../../PATCH/autocore/0001-fix.patch
 popd
-wget  -P  package/lean/autocore/files/generic/ https://raw.githubusercontent.com/immortalwrt/luci/master/modules/luci-base/root/usr/libexec/rpcd/luci
-chmod 755 package/lean/autocore/files/generic/luci
-sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/lean/autocore/files/generic/luci-mod-status-autocore.json
-sed -i '/"$threads"/d' package/lean/autocore/files/x86/autocore
+wget  -O  feeds/luci/modules/luci-base/root/usr/libexec/rpcd/luci https://raw.githubusercontent.com/immortalwrt/luci/master/modules/luci-base/root/usr/libexec/rpcd/luci
+chmod 755 feeds/luci/modules/luci-base/root/usr/libexec/rpcd/luci
 MY_svn_export https://github.com/immortalwrt/packages/trunk/utils/coremark                feeds/packages/utils/coremark
 # AutoReboot定时重启
 MY_svn_export https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-autoreboot package/lean/luci-app-autoreboot
