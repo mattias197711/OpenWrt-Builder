@@ -195,6 +195,11 @@ MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/trojan-plus   
 MY_svn_export https://github.com/immortalwrt/packages/trunk/net/proxychains-ng            package/lean/proxychains-ng
 MY_svn_export https://github.com/immortalwrt/packages/trunk/net/kcptun                    feeds/packages/net/kcptun
 git clone -b master --depth 1 https://github.com/fw876/helloworld                         SSRP_SRC
+pushd SSRP_SRC
+  patch -p1 < ../../PATCH/0005-add-QiuSimons-Chnroute-to-chnroute-url.patch
+  wget -qO - https://patch-diff.githubusercontent.com/raw/fw876/helloworld/pull/995.patch | patch -p1
+  wget -qO - https://patch-diff.githubusercontent.com/raw/fw876/helloworld/pull/996.patch | patch -p1
+popd
 mv SSRP_SRC/dns2tcp                                                                       package/new/dns2tcp
 mv SSRP_SRC/hysteria                                                                      package/new/hysteria
 mv SSRP_SRC/lua-neturl                                                                    package/new/lua-neturl
@@ -214,10 +219,6 @@ ln -sf ../../../feeds/packages/net/v2raya                                       
 ln -sf ../../../feeds/packages/net/kcptun                                               ./package/feeds/packages/kcptun
 ln -sf ../../../feeds/packages/net/shadowsocks-rust                                     ./package/feeds/packages/shadowsocks-rust
 rm -rf SSRP_SRC
-# SSRP Patch
-pushd package/lean
-  patch -p1 < ../../../PATCH/0005-add-QiuSimons-Chnroute-to-chnroute-url.patch
-popd
 # OpenClash
 MY_svn_export https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash    package/new/luci-app-openclash
 # 额外DDNS脚本
