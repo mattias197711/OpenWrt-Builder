@@ -197,8 +197,6 @@ MY_svn_export https://github.com/immortalwrt/packages/trunk/net/kcptun          
 git clone -b master --depth 1 https://github.com/fw876/helloworld                         SSRP_SRC
 pushd SSRP_SRC
   patch -p1 < ../../PATCH/0005-add-QiuSimons-Chnroute-to-chnroute-url.patch
-  wget -qO - https://patch-diff.githubusercontent.com/raw/fw876/helloworld/pull/995.patch | patch -p1
-  wget -qO - https://patch-diff.githubusercontent.com/raw/fw876/helloworld/pull/996.patch | patch -p1
 popd
 mv SSRP_SRC/dns2tcp                                                                       package/new/dns2tcp
 mv SSRP_SRC/hysteria                                                                      package/new/hysteria
