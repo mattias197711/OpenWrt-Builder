@@ -28,10 +28,10 @@ echo "Make Download    $(date)" | tee -a ../../buildtime.txt
 make download -j8
 
 echo "Make Toolchain   $(date)" | tee -a ../../buildtime.txt
-make toolchain/install -j16
+[[ ${MYMAKENUMBER} =~ ^[0-9]+$ ]] && MYMAKENUMBER=4
+make toolchain/install -j${MYMAKENUMBER}
 
 echo "Compile Openwrt  $(date)" | tee -a ../../buildtime.txt
-[[ ${MYMAKENUMBER} =~ ^[0-9]+$ ]] && MYMAKENUMBER=4
 make -j${MYMAKENUMBER} V=w
 
 cd ../..
