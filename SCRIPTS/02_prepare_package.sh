@@ -176,6 +176,7 @@ popd
 MY_svn_export https://github.com/QiuSimons/OpenWrt-Add/trunk/luci-app-irqbalance          package/new/luci-app-irqbalance
 # socat
 MY_svn_export https://github.com/Lienol/openwrt-package/trunk/luci-app-socat              package/new/luci-app-socat
+sed -i '/socat\.config/d' feeds/packages/net/socat/Makefile
 # SSRP依赖
 rm -rf ./feeds/packages/net/xray-core ./feeds/packages/net/kcptun ./feeds/packages/net/shadowsocks-libev ./feeds/packages/net/proxychains-ng ./feeds/packages/net/shadowsocks-rust ./feeds/packages/net/v2raya
 MY_svn_export https://github.com/coolsnowwolf/lede/trunk/package/lean/srelay              package/lean/srelay
