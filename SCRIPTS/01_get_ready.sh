@@ -3,10 +3,10 @@ set -e
 alias wget="$(which wget) --https-only --retry-connrefused"
 
 # get the latest release version of 22.03
-LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' | grep -v 'rc' | grep 'v22' | sort -r | head -n 1)
+LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github+json' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' | grep -v 'rc' | grep 'v22' | sort -r | head -n 1)
 LATESTRELEASE=${LATESTRELEASE:1:-1}
 
-wget https://github.com/openwrt/openwrt/archive/${LATESTRELEASE}.tar.gz
+wget https://github.com/openwrt/openwrt/archive/refs/tags/${LATESTRELEASE}.tar.gz
 
 mkdir openwrt_release
 

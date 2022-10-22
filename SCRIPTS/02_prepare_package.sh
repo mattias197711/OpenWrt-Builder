@@ -256,7 +256,7 @@ cp -f ../PRECONFS/screenrc ./package/base-files/files/root/.screenrc
 
 ### 4. 最后的收尾工作 ###
 # vermagic
-LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' | grep -v 'rc' | grep 'v22' | sort -r | head -n 1)
+LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github+json' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' | grep -v 'rc' | grep 'v22' | sort -r | head -n 1)
 LATESTRELEASE=${LATESTRELEASE:2:-1}
 case ${MYOPENWRTTARGET} in
   R2S)
