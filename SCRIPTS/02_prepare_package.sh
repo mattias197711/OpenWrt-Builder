@@ -97,8 +97,8 @@ case ${MYOPENWRTTARGET} in
 # CONFIG_MEDIA_CEC_RC is not set
 ' >> ./target/linux/rockchip/armv8/config-5.10
     # 用假的dts填补缺失的rk3568
-    mkdir -p target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
-    cp -f ../PATCH/dts/*.dts target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
+    mkdir -p target/linux/rockchip/files-5.10
+    cp -af ../PATCH/files-5.10 ./target/linux/rockchip/files-5.10
     # 其他内核配置
     echo '
 # CONFIG_SHORTCUT_FE is not set
