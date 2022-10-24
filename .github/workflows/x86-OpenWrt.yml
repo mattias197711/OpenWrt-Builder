@@ -135,7 +135,7 @@ jobs:
         ls -Ahl
         /bin/bash ../../../../../SCRIPTS/06_cleaning.sh
         mv -f ./* ../../../../../artifact/
-        echo "::set-output name=status::success"
+        echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload Firmwares
       uses: actions/upload-artifact@v3
