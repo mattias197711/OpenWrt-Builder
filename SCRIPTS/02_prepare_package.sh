@@ -150,6 +150,9 @@ pushd feeds/luci
 popd
 
 ### 3. 更新部分软件包 ###
+# dnsmasq
+rm -rf ./package/network/services/dnsmasq
+MY_svn_export https://github.com/openwrt/openwrt/trunk/package/network/services/dnsmasq   package/network/services/dnsmasq
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
 MY_svn_export https://github.com/openwrt/packages/trunk/lang/golang                       feeds/packages/lang/golang
