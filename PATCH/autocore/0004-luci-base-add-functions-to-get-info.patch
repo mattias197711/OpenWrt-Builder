@@ -1,0 +1,94 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: ZiMing Mo <msylgj@immortalwrt.org>
+Date: Mon, 17 Sep 2001 00:00:00 +0000
+Subject: [PATCH] luci-base: add functions to get info of cpu, eth, temperature
+ and system feature flag for fullcone nat
+
+---
+ modules/luci-base/root/usr/libexec/rpcd/luci | 66 ++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
+
+diff --git a/modules/luci-base/root/usr/libexec/rpcd/luci b/modules/luci-base/root/usr/libexec/rpcd/luci
+index 6a80951..7b2d6bb 100755
+--- a/modules/luci-base/root/usr/libexec/rpcd/luci
++++ b/modules/luci-base/root/usr/libexec/rpcd/luci
+@@ -214,6 +214,7 @@ local methods = {
+ 			rv.firewall4     = fs.access("/sbin/fw4")
+ 			rv.opkg          = fs.access("/bin/opkg")
+ 			rv.offloading    = fs.access("/sys/module/xt_FLOWOFFLOAD/refcnt") or fs.access("/sys/module/nft_flow_offload/refcnt")
++			rv.fullcone      = fs.access("/sys/module/xt_FULLCONENAT/refcnt") or fs.access("/sys/module/nft_fullcone/refcnt")
+ 			rv.br2684ctl     = fs.access("/usr/sbin/br2684ctl")
+ 			rv.swconfig      = fs.access("/sbin/swconfig")
+ 			rv.odhcpd        = fs.access("/usr/sbin/odhcpd")
+@@ -618,6 +619,71 @@ local methods = {
+ 			end
+ 			return { result = res }
+ 		end
++	},
++
++	getCPUBench = {
++		call = function()
++			local sys = require "luci.sys"
++			local cpubench = {}
++
++			cpubench.cpubench = sys.exec("cat /etc/bench.log 2>/dev/null")
++			return cpubench
++		end
++	},
++
++	getCPUInfo = {
++		call = function()
++			local sys = require "luci.sys"
++			local cpuinfo = {}
++
++			cpuinfo.cpuinfo = sys.exec("/sbin/cpuinfo")
++
++			if (cpuinfo.cpuinfo == nil) or (cpuinfo.cpuinfo == "") then
++				cpuinfo.cpuinfo = "? x ? (2.33MHz, 2.33°C)"
++			end
++
++			return cpuinfo
++		end
++	},
++
++	getCPUUsage = {
++		call = function()
++			local sys = require "luci.sys"
++			local cpuusage = {}
++
++			cpuusage.cpuusage = sys.exec("top -n1 | awk '/^CPU/ {printf(\"%d%\", 100 - $8)}'") or "6%"
++			return cpuusage
++		end
++	},
++
++	getETHInfo = {
++		call = function()
++			local sys = require "luci.sys"
++			local rv = json.parse(sys.exec("/sbin/ethinfo")) or {}
++
++			return { ethinfo = rv }
++		end
++	},
++
++	getTempInfo = {
++		call = function()
++			local sys = require "luci.sys"
++			local tempinfo = {}
++
++			tempinfo.tempinfo = sys.exec("/sbin/tempinfo 2>/dev/null")
++			return tempinfo
++		end
++	},
++
++	getOnlineUsers = {
++		call = function()
++			local sys = require "luci.sys"
++			local onlineusers = {}
++
++			onlineusers.onlineusers = sys.exec("cat /proc/net/arp | grep 'br-lan' | grep '0x2' | wc -l")
++			return onlineusers
++
++		end
+ 	}
+ }
+ 

@@ -113,7 +113,7 @@ case ${MYOPENWRTTARGET} in
     # mbedTLS
     cp -a Immortalwrt_SRC/package/libs/mbedtls/patches/100-Implements-AES-and-GCM-with-ARMv8-Crypto-Extensions.patch package/libs/mbedtls/patches/
     # 交换 LAN WAN
-    patch -p1 < ../PATCH/R2S-swap-LAN-WAN.patch
+    patch -p1 < ../PATCH/0001-R2S-swap-LAN-WAN.patch
     ;;
   x86)
     # igb-intel 网卡驱动
@@ -146,7 +146,7 @@ MY_svn_export https://github.com/Lienol/openwrt/trunk/package/network/fullconena
 wget -qO - https://github.com/coolsnowwolf/lede/commit/8a4db762497b79cac91df5e777089448a2a71f7c.patch | patch -p1
 # 修复由于 shadow-utils 引起的管理页面修改密码功能失效的问题
 pushd feeds/luci
-  patch -p1 < ../../../PATCH/let-luci-use-busybox-passwd.patch
+  patch -p1 < ../../../PATCH/0002-let-luci-use-busybox-passwd.patch
 popd
 
 ### 3. 更新部分软件包 ###
@@ -159,10 +159,11 @@ MY_svn_export https://github.com/openwrt/packages/trunk/lang/golang             
 # AutoCore & coremark
 cp -a Immortalwrt_SRC/package/emortal/autocore package/lean/autocore
 pushd package/lean
-  patch -p1 < ../../../PATCH/autocore/0001-fix.patch
+  patch -p1 < ../../../PATCH/autocore/0003-some-fix.patch
 popd
-wget  -O  feeds/luci/modules/luci-base/root/usr/libexec/rpcd/luci https://raw.githubusercontent.com/immortalwrt/luci/master/modules/luci-base/root/usr/libexec/rpcd/luci
-chmod 755 feeds/luci/modules/luci-base/root/usr/libexec/rpcd/luci
+pushd feeds/luci
+  patch -p1 < ../../../PATCH/autocore/0004-luci-base-add-functions-to-get-info.patch
+popd
 rm -rf ./feeds/packages/utils/coremark
 MY_svn_export https://github.com/immortalwrt/packages/trunk/utils/coremark                feeds/packages/utils/coremark
 # AutoReboot定时重启
