@@ -85,6 +85,7 @@ jobs:
       run: |
         cd openwrt
         cp -f ../SEED/R2S.config.seed .config
+        cat   ../SEED/crypto.seed  >> .config
         cat   ../SEED/more.seed    >> .config
         make defconfig
 

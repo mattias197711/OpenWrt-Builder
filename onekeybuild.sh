@@ -21,6 +21,7 @@ echo "Modification     $(date)" | tee -a ../../buildtime.txt
 echo "Make Defconfig   $(date)" | tee -a ../../buildtime.txt
 [ -f "../SEED/${MYOPENWRTTARGET}.config.seed" ] || MYOPENWRTTARGET='R2S'
 cp -f "../SEED/${MYOPENWRTTARGET}.config.seed" .config
+cat ../SEED/crypto.seed >> .config
 cat ../SEED/more.seed >> .config
 make defconfig
 
