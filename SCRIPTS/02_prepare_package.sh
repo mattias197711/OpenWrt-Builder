@@ -73,6 +73,7 @@ case ${MYOPENWRTTARGET} in
     wget -P target/linux/rockchip/ https://raw.githubusercontent.com/openwrt/openwrt/openwrt-22.03/target/linux/rockchip/Makefile
     rm -rf ./target/linux/rockchip/patches-5.10/002-net-usb-r8152-add-LED-configuration-from-OF.patch
     rm -rf ./target/linux/rockchip/patches-5.10/003-dt-bindings-net-add-RTL8152-binding-documentation.patch
+    cp -af ../PATCH/rockchip-5.10/* ./target/linux/rockchip/patches-5.10/
     rm -rf ./package/boot/uboot-rockchip
     MY_svn_export https://github.com/coolsnowwolf/lede/trunk/package/boot/uboot-rockchip package/boot/uboot-rockchip
     sed -i '/r2c-rk3328:arm-trusted/d' package/boot/uboot-rockchip/Makefile
