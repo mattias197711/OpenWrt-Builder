@@ -137,7 +137,7 @@ case ${MYOPENWRTTARGET} in
     echo '# Put your custom commands here that should be executed once
 # the system init finished. By default this file does nothing.
 
-if grep "Default string" /tmp/sysinfo/model >> /dev/null; then
+if grep -q "Default string" /tmp/sysinfo/model 2>/dev/null; then
     echo "Compatible PC" > /tmp/sysinfo/model
 fi
 
