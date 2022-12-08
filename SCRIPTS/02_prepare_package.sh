@@ -52,6 +52,7 @@ chmod +x scripts/download.pl
 
 ### 2. 必要的Patch ###
 mkdir -p ./package/new/ ./package/lean/
+cp -af ../PATCH/backport/290-remove-kconfig-CONFIG_I8K.patch ./target/linux/generic/hack-5.10/
 # R8152 网卡驱动
 cp -a Immortalwrt_SRC/package/kernel/r8152 package/new/r8152
 # R8168 网卡驱动
@@ -74,12 +75,23 @@ case ${MYOPENWRTTARGET} in
     rm -rf ./target/linux/rockchip/patches-5.10/002-net-usb-r8152-add-LED-configuration-from-OF.patch
     rm -rf ./target/linux/rockchip/patches-5.10/003-dt-bindings-net-add-RTL8152-binding-documentation.patch
     cp -af ../PATCH/rockchip-5.10/* ./target/linux/rockchip/patches-5.10/
+    rm -rf ./package/firmware/linux-firmware/intel.mk ./package/firmware/linux-firmware/Makefile
+    wget -P package/firmware/linux-firmware/ https://raw.githubusercontent.com/coolsnowwolf/lede/master/package/firmware/linux-firmware/intel.mk
+    wget -P package/firmware/linux-firmware/ https://raw.githubusercontent.com/coolsnowwolf/lede/master/package/firmware/linux-firmware/Makefile
+    # 用假的dts填补缺失的rk3568
+    mkdir -p                 target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
+    cp -f ../PATCH/dts/*.dts target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
+    mkdir -p                 target/linux/rockchip/files-5.10/include/linux/
+    cp -f ../PATCH/dts/*.h   target/linux/rockchip/files-5.10/include/linux/
+    mkdir -p                 target/linux/rockchip/files-5.10/drivers/net/phy/
+    cp -f ../PATCH/dts/*.c   target/linux/rockchip/files-5.10/drivers/net/phy/
+    # 替换uboot
     rm -rf ./package/boot/uboot-rockchip
     MY_svn_export https://github.com/coolsnowwolf/lede/trunk/package/boot/uboot-rockchip package/boot/uboot-rockchip
     sed -i '/r2c-rk3328:arm-trusted/d' package/boot/uboot-rockchip/Makefile
     MY_svn_export https://github.com/coolsnowwolf/lede/trunk/package/boot/arm-trusted-firmware-rockchip-vendor package/boot/arm-trusted-firmware-rockchip-vendor
     # 添加 GPU 驱动
-    rm -rf  package/kernel/linux/modules/video.mk
+    rm -rf package/kernel/linux/modules/video.mk
     cp -a Immortalwrt_SRC/package/kernel/linux/modules/video.mk package/kernel/linux/modules/
     echo '
 # CONFIG_IR_SANYO_DECODER is not set
@@ -97,13 +109,6 @@ case ${MYOPENWRTTARGET} in
 # CONFIG_IR_TOY is not set
 # CONFIG_MEDIA_CEC_RC is not set
 ' >> ./target/linux/rockchip/armv8/config-5.10
-    # 用假的dts填补缺失的rk3568
-    mkdir -p                 target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
-    cp -f ../PATCH/dts/*.dts target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
-    mkdir -p                 target/linux/rockchip/files-5.10/include/linux/
-    cp -f ../PATCH/dts/*.h   target/linux/rockchip/files-5.10/include/linux/
-    mkdir -p                 target/linux/rockchip/files-5.10/drivers/net/phy/
-    cp -f ../PATCH/dts/*.c   target/linux/rockchip/files-5.10/drivers/net/phy/
     # 其他内核配置
     echo '
 # CONFIG_SHORTCUT_FE is not set
@@ -116,8 +121,28 @@ case ${MYOPENWRTTARGET} in
     patch -p1 < ../PATCH/0001-R2S-swap-LAN-WAN.patch
     ;;
   x86)
+    # Intel GPU 修正
+    rm -rf  package/kernel/linux/modules/video.mk
+    wget -P package/kernel/linux/modules/ https://raw.githubusercontent.com/coolsnowwolf/lede/master/package/kernel/linux/modules/video.mk
+    sed -i 's,CONFIG_DRM_I915_CAPTURE_ERROR ,CONFIG_DRM_I915_CAPTURE_ERROR=n ,g' package/kernel/linux/modules/video.mk
+    # config 变更
+    rm -rf  target/linux/x86/64/config-5.10
+    wget -P target/linux/x86/64/ https://raw.githubusercontent.com/coolsnowwolf/lede/master/target/linux/x86/64/config-5.10
     # igb-intel 网卡驱动
     MY_svn_export https://github.com/coolsnowwolf/lede/trunk/package/lean/igb-intel package/new/igb-intel
+    # igc-backport
+    mkdir -p target/linux/x86/files-5.10/drivers/net/ethernet/intel/igc/
+    cp -f ../PATCH/intel-igc-driver/* ./target/linux/x86/files-5.10/drivers/net/ethernet/intel/igc/
+    # 系统型号字符串
+    echo '# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+
+if grep "Default string" /tmp/sysinfo/model >> /dev/null; then
+    echo "Compatible PC" > /tmp/sysinfo/model
+fi
+
+exit 0
+'> ./package/base-files/files/etc/rc.local
     ;;
 esac
 # 默认开启 irqbalance
@@ -168,6 +193,7 @@ rm -rf ./feeds/packages/utils/coremark
 MY_svn_export https://github.com/immortalwrt/packages/trunk/utils/coremark                feeds/packages/utils/coremark
 # AutoReboot定时重启
 MY_svn_export https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-autoreboot package/lean/luci-app-autoreboot
+sed -i '/LUCI_DEPENDS/d' package/lean/luci-app-autoreboot/Makefile
 # ipv6-helper
 MY_svn_export https://github.com/coolsnowwolf/lede/trunk/package/lean/ipv6-helper         package/lean/ipv6-helper
 # 清理内存
@@ -189,7 +215,6 @@ sed -i '/socat\.config/d' feeds/packages/net/socat/Makefile
 # SSRP依赖
 rm -rf ./feeds/packages/net/xray-core ./feeds/packages/net/kcptun ./feeds/packages/net/shadowsocks-libev ./feeds/packages/net/proxychains-ng ./feeds/packages/net/shadowsocks-rust ./feeds/packages/net/v2raya
 MY_svn_export https://github.com/coolsnowwolf/lede/trunk/package/lean/srelay              package/lean/srelay
-MY_svn_export https://github.com/coolsnowwolf/packages/trunk/net/redsocks2                package/lean/redsocks2
 MY_svn_export https://github.com/coolsnowwolf/packages/trunk/net/shadowsocks-libev        package/lean/shadowsocks-libev
 MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/brook                   package/new/brook
 MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/dns2socks               package/lean/dns2socks
@@ -197,11 +222,8 @@ MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/ipt2socks     
 MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/microsocks              package/lean/microsocks
 MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/pdnsd-alt               package/lean/pdnsd
 MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/ssocks                  package/new/ssocks
-MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/tcping                  package/lean/tcping
-MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/trojan                  package/lean/trojan
 MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/trojan-go               package/lean/trojan-go
 MY_svn_export https://github.com/xiaorouji/openwrt-passwall/trunk/trojan-plus             package/new/trojan-plus
-MY_svn_export https://github.com/immortalwrt/packages/trunk/net/proxychains-ng            package/lean/proxychains-ng
 MY_svn_export https://github.com/immortalwrt/packages/trunk/net/kcptun                    feeds/packages/net/kcptun
 git clone -b master --depth 1 https://github.com/fw876/helloworld                         SSRP_SRC
 pushd SSRP_SRC
@@ -211,10 +233,13 @@ mv SSRP_SRC/dns2tcp                                                             
 mv SSRP_SRC/hysteria                                                                      package/new/hysteria
 mv SSRP_SRC/lua-neturl                                                                    package/new/lua-neturl
 mv SSRP_SRC/naiveproxy                                                                    package/lean/naiveproxy
+mv SSRP_SRC/redsocks2                                                                     package/lean/redsocks2
 mv SSRP_SRC/sagernet-core                                                                 package/new/sagernet-core
 mv SSRP_SRC/shadowsocks-rust                                                              feeds/packages/net/shadowsocks-rust
 mv SSRP_SRC/shadowsocksr-libev                                                            package/lean/shadowsocksr-libev
 mv SSRP_SRC/simple-obfs                                                                   package/lean/simple-obfs
+mv SSRP_SRC/tcping                                                                        package/lean/tcping
+mv SSRP_SRC/trojan                                                                        package/lean/trojan
 mv SSRP_SRC/v2ray-core                                                                    package/lean/v2ray-core
 mv SSRP_SRC/v2ray-geodata                                                                 package/new/v2ray-geodata
 mv SSRP_SRC/v2ray-plugin                                                                  package/lean/v2ray-plugin
@@ -242,7 +267,6 @@ rm -rf ./feeds/packages/net/zerotier/files/etc/init.d/zerotier
 MY_svn_export https://github.com/immortalwrt/packages/trunk/utils/cpulimit              feeds/packages/utils/cpulimit
 ln -sf ../../../feeds/packages/utils/cpulimit                                         ./package/feeds/packages/cpulimit
 MY_svn_export https://github.com/QiuSimons/OpenWrt-Add/trunk/luci-app-cpulimit          package/lean/luci-app-cpulimit
-cp -f ../PATCH/luci-app-cpulimit_config/cpulimit                                      ./package/lean/luci-app-cpulimit/root/etc/config/cpulimit
 # CPU 主频
 if [ "${MYOPENWRTTARGET}" = 'R2S' ] ; then
   MY_svn_export https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq feeds/luci/applications/luci-app-cpufreq
@@ -284,10 +308,6 @@ cp -a ../PATCH/nftables/10-ios.nft files/usr/share/nftables.d/chain-pre/forward/
 # 最大连接
 sed -i 's/16384/65535/g' package/kernel/linux/files/sysctl-nf-conntrack.conf
 echo 'net.netfilter.nf_conntrack_helper = 1' >> package/kernel/linux/files/sysctl-nf-conntrack.conf
-# crypto相关
-if [ "${MYOPENWRTTARGET}" = 'x86' ] ; then
-  echo 'CONFIG_CRYPTO_AES_NI_INTEL=y' >> ./target/linux/x86/config-5.10
-fi
 # 删除已有配置
 rm -rf .config
 # 删除多余的代码库
