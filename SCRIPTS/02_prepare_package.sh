@@ -115,8 +115,6 @@ case ${MYOPENWRTTARGET} in
 # CONFIG_PHY_ROCKCHIP_NANENG_COMBO_PHY is not set
 # CONFIG_PHY_ROCKCHIP_SNPS_PCIE3 is not set
 ' >> ./target/linux/rockchip/armv8/config-5.10
-    # mbedTLS
-    cp -a Immortalwrt_SRC/package/libs/mbedtls/patches/100-Implements-AES-and-GCM-with-ARMv8-Crypto-Extensions.patch package/libs/mbedtls/patches/
     # 交换 LAN WAN
     patch -p1 < ../PATCH/0001-R2S-swap-LAN-WAN.patch
     ;;
@@ -167,6 +165,9 @@ patch -p1 < ../PATCH/firewall/luci-app-firewall_add_fullcone.patch
 # FullCone 相关组件
 git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone         package/new/nft-fullcone
 MY_svn_export https://github.com/Lienol/openwrt/trunk/package/network/fullconenat package/lean/openwrt-fullconenat
+# mbedTLS
+rm -rf ./package/libs/mbedtls
+MY_svn_export https://github.com/immortalwrt/immortalwrt/branches/master/package/libs/mbedtls package/libs/mbedtls
 # fstool patch
 wget -qO - https://github.com/coolsnowwolf/lede/commit/8a4db762497b79cac91df5e777089448a2a71f7c.patch | patch -p1
 # 修复由于 shadow-utils 引起的管理页面修改密码功能失效的问题

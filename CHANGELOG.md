@@ -1,5 +1,6 @@
 ## 变更历史 stage 10
 ### 2022/12/09 build 06
+* 更新 mbedTLS。
 * 常规更新。
 ### 2022/11/09 build 05
 * 更新 dnsmasq。
