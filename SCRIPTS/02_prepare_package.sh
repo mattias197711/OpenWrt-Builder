@@ -115,8 +115,6 @@ case ${MYOPENWRTTARGET} in
 # CONFIG_PHY_ROCKCHIP_NANENG_COMBO_PHY is not set
 # CONFIG_PHY_ROCKCHIP_SNPS_PCIE3 is not set
 ' >> ./target/linux/rockchip/armv8/config-5.10
-    # 交换 LAN WAN
-    patch -p1 < ../PATCH/0001-R2S-swap-LAN-WAN.patch
     ;;
   x86)
     # Intel GPU 修正

@@ -19,7 +19,7 @@ https://github.com/KaneGreen/OpenWrt-builder_R2S-x86/actions
 
 2. R2S 版 OpenWrt 内置升级可用。
 
-3. R2S 版 build 66（2020年8月1日）及以后的固件，继续交换 LAN WAN 网口，即和原厂接口定义相反（LAN 口是远离电源接口的那一个 RJ45 接口）。
+3. R2S 版不再交换 LAN WAN 网口，和上游定义一致。
 
 4. 遇到上不了网的，请自行排查自己的 IPv6 连接情况，或禁用 IPv6（同时禁用 WAN 和 LAN 的 IPv6）（默认已关闭ipv6的dns解析，手动可以在DHCP/DNS里的高级设置中调整）
 
