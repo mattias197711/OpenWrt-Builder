@@ -200,6 +200,10 @@ MY_svn_export https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-r
 # 流量监视
 git clone -b master --depth 1 https://github.com/brvphoenix/wrtbwmon                      package/new/wrtbwmon
 git clone -b master --depth 1 https://github.com/brvphoenix/luci-app-wrtbwmon             package/new/luci-app-wrtbwmon
+# Nginx
+sed -i 's/client_max_body_size 128M/client_max_body_size 2048M/g'                         feeds/packages/net/nginx-util/files/uci.conf.template
+# uwsgi
+sed -i 's,procd_set_param stderr 1,procd_set_param stderr 0,g'                            feeds/packages/net/uwsgi/files/uwsgi.init
 # Haproxy
 rm -rf ./feeds/packages/net/haproxy
 MY_svn_export https://github.com/openwrt/packages/trunk/net/haproxy                       feeds/packages/net/haproxy
