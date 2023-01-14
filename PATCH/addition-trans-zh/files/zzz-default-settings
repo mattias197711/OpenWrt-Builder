@@ -1,9 +1,11 @@
 #!/bin/sh
+# file mode
+chmod 0755 /etc/init.d/*
 # timezone
 uci set system.@system[0].timezone='CST-8'
 uci set system.@system[0].zonename='Asia/Shanghai'
 uci del system.ntp.server
-uci add_list system.ntp.server='ntp1.tencent.com'
+uci add_list system.ntp.server='ntp5.tencent.com'
 uci add_list system.ntp.server='ntp.ntsc.ac.cn'
 uci add_list system.ntp.server='ntp.aliyun.com'
 uci add_list system.ntp.server='cn.ntp.org.cn'
@@ -11,11 +13,12 @@ uci commit system
 # feed
 sed -i 's,downloads.openwrt.org,mirrors.cloud.tencent.com/openwrt,g' /etc/opkg/distfeeds.conf
 # uhttpd
-uci set uhttpd.main.rfc1918_filter='0'
+uci set uhttpd.main.redirect_https='1'
 uci commit uhttpd
 /etc/init.d/uhttpd restart
 # enable Fullcone NAT
 uci set firewall.@defaults[0].fullcone='1'
+uci set firewall.@defaults[0].flow_offloading='0'
 uci commit firewall
 # dropbear
 uci set dropbear.@dropbear[0].Interface='lan'
@@ -23,25 +26,15 @@ uci commit dropbear
 /etc/init.d/dropbear restart
 # enable UPnP
 uci set upnpd.config.enabled='1'
-uci del upnpd.config.enable_upnp
-uci del upnpd.config.enable_natpmp
-uci set upnpd.config.external_iface='wan'
 uci commit upnpd
-# openssl.cnf
-sed -i 's,#devcrypto,devcrypto,g' /etc/ssl/openssl.cnf
-sed -i 's,#USE_SOFTDRIVERS = 2,USE_SOFTDRIVERS = 1,g' /etc/ssl/openssl.cnf
-# dnsmasq
-uci set dhcp.lan.ra='hybrid'
-uci set dhcp.lan.dhcpv6='hybrid'
-uci set dhcp.lan.ndp='hybrid'
-uci del dhcp.@dnsmasq[0].filter_aaaa
-sed -i '/log-facility/d' /etc/dnsmasq.conf
-echo 'log-facility=/dev/null' >> /etc/dnsmasq.conf
-uci commit dhcp
 # enable Packet Steering
 uci set network.globals.packet_steering='1'
 uci set network.lan.ip6assign='64'
 uci commit network
+# dnsmasq
+sed -i '/log-facility/d' /etc/dnsmasq.conf
+echo 'log-facility=/dev/null' >> /etc/dnsmasq.conf
+/etc/init.d/dnsmasq restart
 # symlink for ip and wget-ssl command
 [ ! -f '/usr/bin/ip' ]       && [ -x '/sbin/ip' ]           && ln -sf /sbin/ip /usr/bin/ip
 [ ! -f '/usr/bin/wget-ssl' ] && [ -x '/usr/bin/wget' ]      && ln -sf /usr/bin/wget /usr/bin/wget-ssl
