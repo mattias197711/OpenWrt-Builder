@@ -263,7 +263,7 @@ MY_svn_export https://github.com/jjm2473/openwrt-third/trunk/ddns-scripts_aliyun
 # Zerotier
 rm -rf ./feeds/packages/net/zerotier
 MY_svn_export https://github.com/immortalwrt/packages/trunk/net/zerotier                feeds/packages/net/zerotier
-MY_svn_export https://github.com/immortalwrt/luci/trunk/applications/luci-app-zerotier  feeds/luci/applications/luci-app-zerotier
+MY_svn_export https://github.com/immortalwrt/luci/branches/master/applications/luci-app-zerotier feeds/luci/applications/luci-app-zerotier
 ln -sf ../../../feeds/luci/applications/luci-app-zerotier                             ./package/feeds/luci/luci-app-zerotier
 rm -rf ./feeds/packages/net/zerotier/files/etc/init.d/zerotier
 # CPU 限制
