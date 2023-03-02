@@ -117,8 +117,6 @@ case ${MYOPENWRTTARGET} in
     # config 变更
     rm -rf  target/linux/x86/64/config-5.10
     wget -P target/linux/x86/64/ https://raw.githubusercontent.com/coolsnowwolf/lede/master/target/linux/x86/64/config-5.10
-    # igb-intel 网卡驱动
-    mv Coolsnowwolf_SRC/package/lean/igb-intel package/new/igb-intel
     # igc-backport
     mkdir -p                       target/linux/x86/files-5.10/drivers/net/ethernet/intel/igc/
     mv ../PATCH/intel-igc-driver/* target/linux/x86/files-5.10/drivers/net/ethernet/intel/igc/
@@ -278,6 +276,14 @@ mv -f ../PRECONFS/vimrc    package/base-files/files/root/.vimrc
 mv -f ../PRECONFS/screenrc package/base-files/files/root/.screenrc
 
 ### 4. 最后的收尾工作 ###
+case ${MYOPENWRTTARGET} in
+  R2S)
+    echo -e 'CONFIG_MOTORCOMM_PHY=n\nCONFIG_HW_RANDOM_ROCKCHIP=m\nCONFIG_ARM_RK3328_DMC_DEVFREQ=y'>> arget/linux/generic/config-5.10
+    ;;
+  x86)
+    echo 'CONFIG_MOTORCOMM_PHY=n'>> arget/linux/generic/config-5.10
+    ;;
+esac
 # vermagic
 LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' -r | grep -v 'rc' | grep 'v22' | sort -r | head -n 1)
 LATESTRELEASE=${LATESTRELEASE:1}
