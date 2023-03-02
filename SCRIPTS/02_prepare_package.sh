@@ -279,8 +279,8 @@ mv -f ../PRECONFS/screenrc package/base-files/files/root/.screenrc
 
 ### 4. 最后的收尾工作 ###
 # vermagic
-LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' | grep -v 'rc' | grep 'v22' | sort -r | head -n 1)
-LATESTRELEASE=${LATESTRELEASE:2:-1}
+LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' -r | grep -v 'rc' | grep 'v22' | sort -r | head -n 1)
+LATESTRELEASE=${LATESTRELEASE:1}
 case ${MYOPENWRTTARGET} in
   R2S)
     wget https://downloads.openwrt.org/releases/${LATESTRELEASE}/targets/rockchip/armv8/packages/Packages.gz
