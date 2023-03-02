@@ -8,13 +8,13 @@ Subject: [PATCH] add QiuSimons/Chnroute to chnroute_url
  1 file changed, 1 insertion(+)
 
 diff --git a/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/advanced.lua b/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/advanced.lua
-index 6de68df..608f962 100644
+index cd18cdb..b5e520b 100644
 --- a/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/advanced.lua
 +++ b/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/advanced.lua
-@@ -54,6 +54,7 @@ o.default = "https://fastly.jsdelivr.net/gh/YW5vbnltb3Vz/domain-list-community@r
- o = s:option(Value, "chnroute_url", translate("Chnroute Update url"))
+@@ -55,6 +55,7 @@ o = s:option(Value, "chnroute_url", translate("Chnroute Update url"))
  o:value("https://ispip.clang.cn/all_cn.txt", translate("Clang.CN"))
  o:value("https://ispip.clang.cn/all_cn_cidr.txt", translate("Clang.CN.CIDR"))
+ o:value("https://fastly.jsdelivr.net/gh/gaoyifan/china-operator-ip@ip-lists/china.txt", translate("china-operator-ip"))
 +o:value("https://fastly.jsdelivr.net/gh/QiuSimons/Chnroute@master/dist/chnroute/chnroute.txt", translate("QiuSimons.Chnroute"))
  o.default = "https://ispip.clang.cn/all_cn.txt"
  
