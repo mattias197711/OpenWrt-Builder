@@ -24,11 +24,6 @@ set -x
 # 使用O2级别的优化
 sed -i 's/ -Os / -O2 -Wl,--gc-sections /g' include/target.mk
 wget -qO - https://github.com/openwrt/openwrt/commit/8249a8c54e26aa2039258ee4307ea0cc18edab78.patch | patch -p1
-# feed使用GitHub
-sed -i 's,git.openwrt.org/feed/packages,github.com/openwrt/packages,g'   ./feeds.conf.default
-sed -i 's,git.openwrt.org/project/luci,github.com/openwrt/luci,g'        ./feeds.conf.default
-sed -i 's,git.openwrt.org/feed/routing,github.com/openwrt/routing,g'     ./feeds.conf.default
-sed -i 's,git.openwrt.org/feed/telephony,github.com/openwrt/telephony,g' ./feeds.conf.default
 # 更新feed
 ./scripts/feeds update -a
 ./scripts/feeds install -a
