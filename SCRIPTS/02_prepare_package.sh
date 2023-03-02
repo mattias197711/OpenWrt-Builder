@@ -278,10 +278,10 @@ mv -f ../PRECONFS/screenrc package/base-files/files/root/.screenrc
 ### 4. 最后的收尾工作 ###
 case ${MYOPENWRTTARGET} in
   R2S)
-    echo -e 'CONFIG_MOTORCOMM_PHY=n\nCONFIG_HW_RANDOM_ROCKCHIP=m\nCONFIG_ARM_RK3328_DMC_DEVFREQ=y'>> arget/linux/generic/config-5.10
+    echo -e 'CONFIG_MOTORCOMM_PHY=n\nCONFIG_HW_RANDOM_ROCKCHIP=m\nCONFIG_ARM_RK3328_DMC_DEVFREQ=y' >> arget/linux/generic/config-5.10
     ;;
   x86)
-    echo 'CONFIG_MOTORCOMM_PHY=n'>> arget/linux/generic/config-5.10
+    echo 'CONFIG_MOTORCOMM_PHY=n' >> arget/linux/generic/config-5.10
     ;;
 esac
 # vermagic
