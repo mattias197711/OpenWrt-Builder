@@ -220,7 +220,6 @@ mv SSRP_SRC/hysteria                                      package/new/hysteria
 mv SSRP_SRC/lua-neturl                                    package/new/lua-neturl
 mv SSRP_SRC/naiveproxy                                    package/lean/naiveproxy
 mv SSRP_SRC/redsocks2                                     package/lean/redsocks2
-mv SSRP_SRC/sagernet-core                                 package/new/sagernet-core
 mv SSRP_SRC/shadowsocks-rust                              feeds/packages/net/shadowsocks-rust
 mv SSRP_SRC/shadowsocksr-libev                            package/lean/shadowsocksr-libev
 mv SSRP_SRC/simple-obfs                                   package/lean/simple-obfs
