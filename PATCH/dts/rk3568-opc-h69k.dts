@@ -7,6 +7,6 @@
 /dts-v1/;
 
 / {
-	model = "FriendlyElec NanoPi R5C";
-	compatible = "friendlyarm,nanopi-r5c","rockchip,rk3568";
+	model = "HINLINK OPC-H69K Board";
+	compatible = "hinlink,opc-h69k", "rockchip,rk3568";
 };

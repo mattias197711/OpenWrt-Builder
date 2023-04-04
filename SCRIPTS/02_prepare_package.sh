@@ -9,8 +9,7 @@ set -e
 set -x
 ### 1. 准备工作 ###
 # 使用O2级别的优化
-sed -i 's/ -Os / -O2 -Wl,--gc-sections /g' include/target.mk
-wget -qO - https://github.com/openwrt/openwrt/commit/8249a8c54e26aa2039258ee4307ea0cc18edab78.patch | patch -p1
+sed -i 's/ -Os / -O2 /g' include/target.mk
 # 更新feed
 ./scripts/feeds update -a
 ./scripts/feeds install -a
@@ -86,22 +85,9 @@ case ${MYOPENWRTTARGET} in
     sed -i '/r2c-rk3328:arm-trusted/d'                                    package/boot/uboot-rockchip/Makefile
     # 添加 GPU 驱动
     mv -f Immortalwrt_SRC/package/kernel/linux/modules/video.mk package/kernel/linux/modules/video.mk
-    echo '
-# CONFIG_IR_SANYO_DECODER is not set
-# CONFIG_IR_SHARP_DECODER is not set
-# CONFIG_IR_MCE_KBD_DECODER is not set
-# CONFIG_IR_XMP_DECODER is not set
-# CONFIG_IR_IMON_DECODER is not set
-# CONFIG_IR_RCMM_DECODER is not set
-# CONFIG_IR_SPI is not set
-# CONFIG_IR_GPIO_TX is not set
-# CONFIG_IR_PWM_TX is not set
-# CONFIG_IR_SERIAL is not set
-# CONFIG_IR_SIR is not set
-# CONFIG_RC_XBOX_DVD is not set
-# CONFIG_IR_TOY is not set
-# CONFIG_MEDIA_CEC_RC is not set
-' >> target/linux/rockchip/armv8/config-5.10
+    sed -i '/nouveau\.ko/d'                          package/kernel/linux/modules/video.mk
+    sed -i 's,+LINUX_6_1:kmod-drm-display-helper,,g' target/linux/rockchip/modules.mk
+    sed -i '/drm_dp_aux_bus\.ko/d'                   target/linux/rockchip/modules.mk
     # 其他内核配置
     echo '
 # CONFIG_SHORTCUT_FE is not set
@@ -113,6 +99,7 @@ case ${MYOPENWRTTARGET} in
     # Intel GPU 修正
     rm -rf  package/kernel/linux/modules/video.mk
     wget -P package/kernel/linux/modules/ https://raw.githubusercontent.com/coolsnowwolf/lede/master/package/kernel/linux/modules/video.mk
+    sed -i '/nouveau\.ko/d'                                                      package/kernel/linux/modules/video.mk
     sed -i 's,CONFIG_DRM_I915_CAPTURE_ERROR ,CONFIG_DRM_I915_CAPTURE_ERROR=n ,g' package/kernel/linux/modules/video.mk
     # config 变更
     rm -rf  target/linux/x86/64/config-5.10
@@ -137,7 +124,8 @@ sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqba
 # grub2强制使用O2级别优化
 wget -qO - https://github.com/openwrt/openwrt/commit/66fa3431125eca21f1b06878f508d5c079b7f76c.patch | patch -p1
 # Patch Kernel 以解决FullCone冲突
-mv -f Immortalwrt_SRC/target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch
+mv -f Coolsnowwolf_SRC/target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch
+mv -f Coolsnowwolf_SRC/target/linux/generic/hack-5.10/982-add-bcm-fullconenat-support.patch                      target/linux/generic/hack-5.10/982-add-bcm-fullconenat-support.patch
 # Patch FireWall 以增添FullCone功能
 # FW4
 rm -rf package/libs/libnftnl package/network/utils/nftables package/network/config/firewall4
@@ -148,8 +136,16 @@ mv -f ../PATCH/firewall/990-unconditionally-allow-ct-status-dnat.patch package/n
 # FW3
 mkdir -p package/network/config/firewall/patches/
 wget  -P package/network/config/firewall/patches/ https://raw.githubusercontent.com/immortalwrt/immortalwrt/openwrt-21.02/package/network/config/firewall/patches/100-fullconenat.patch
+mv -f Coolsnowwolf_SRC/package/network/config/firewall/patches/101-bcm-fullconenat.patch package/network/config/firewall/patches/101-bcm-fullconenat.patch
+# iptables
+mv -f Coolsnowwolf_SRC/package/network/utils/iptables/patches/900-bcm-fullconenat.patch  package/network/utils/iptables/patches/900-bcm-fullconenat.patch
+# network
+echo 'net.netfilter.nf_conntrack_helper = 1' >> package/kernel/linux/files/sysctl-nf-conntrack.conf
+wget -qO - https://github.com/openwrt/openwrt/commit/bbf39d07fd43977f55a4b9ba9e384cdf8a0d2b50.patch | patch -p1
 # Patch LuCI 以增添FullCone开关
-patch -p1 < ../PATCH/firewall/luci-app-firewall_add_fullcone.patch
+pushd feeds/luci
+  wget -qO- https://github.com/openwrt/luci/commit/471182b2f0eb9f4ce1683392762fa490d3d32e51.patch | patch -p1
+popd
 # FullCone 相关组件
 git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone.git package/new/nft-fullcone
 mv Lienol_SRC/package/network/fullconenat package/lean/openwrt-fullconenat
@@ -219,6 +215,7 @@ mv Passwall_SRC/trojan-go                                 package/lean/trojan-go
 mv Passwall_SRC/trojan-plus                               package/new/trojan-plus
 mv Immortalwrt_PACKAGES/net/kcptun                        feeds/packages/net/kcptun
 mv SSRP_SRC/dns2tcp                                       package/new/dns2tcp
+mv SSRP_SRC/gn                                            package/new/gn
 mv SSRP_SRC/hysteria                                      package/new/hysteria
 mv SSRP_SRC/lua-neturl                                    package/new/lua-neturl
 mv SSRP_SRC/naiveproxy                                    package/lean/naiveproxy
@@ -260,8 +257,6 @@ if [ "${MYOPENWRTTARGET}" = 'R2S' ] ; then
   mv Immortalwrt_LUCI/applications/luci-app-cpufreq        feeds/luci/applications/luci-app-cpufreq
   ln -sf ../../../feeds/luci/applications/luci-app-cpufreq package/feeds/luci/luci-app-cpufreq
 fi
-# jq
-sed -i 's,9625784cf2e4fd9842f1d407681ce4878b5b0dcddbcd31c6135114a30c71e6a8,5de8c8e29aaa3fb9cc6b47bb27299f271354ebb72514e3accadc7d38b5bbaa72,g' feeds/packages/utils/jq/Makefile
 # 翻译及部分功能优化
 mv QiuSimons_ADD/addition-trans-zh                                    package/lean/lean-translate
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/lean/lean-translate/Makefile
@@ -278,10 +273,10 @@ mv -f ../PRECONFS/screenrc package/base-files/files/root/.screenrc
 ### 4. 最后的收尾工作 ###
 case ${MYOPENWRTTARGET} in
   R2S)
-    echo -e 'CONFIG_MOTORCOMM_PHY=n\nCONFIG_HW_RANDOM_ROCKCHIP=m\nCONFIG_ARM_RK3328_DMC_DEVFREQ=y' >> target/linux/generic/config-5.10
+    cat ../SEED/extra.cfg >> target/linux/generic/config-5.10
     ;;
   x86)
-    echo 'CONFIG_MOTORCOMM_PHY=n' >> target/linux/generic/config-5.10
+    sed '/RK3328/d;/ROCKCHIP/d' ../SEED/extra.cfg >> target/linux/generic/config-5.10
     ;;
 esac
 # vermagic
@@ -301,9 +296,6 @@ rm -f Packages.gz
 # nftables 额外规则
 mkdir -p                        files/usr/share/nftables.d/chain-pre/forward/
 mv ../PATCH/nftables/10-ios.nft files/usr/share/nftables.d/chain-pre/forward/10-ios.nft
-# 最大连接
-sed -i 's/16384/65535/g'                        package/kernel/linux/files/sysctl-nf-conntrack.conf
-echo 'net.netfilter.nf_conntrack_helper = 1' >> package/kernel/linux/files/sysctl-nf-conntrack.conf
 # 删除已有配置
 rm -rf .config
 # 删除多余的代码库
