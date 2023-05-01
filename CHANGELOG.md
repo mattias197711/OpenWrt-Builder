@@ -1,6 +1,7 @@
 ## 变更历史 stage 10
 ### 2023/05/01 build 11
 * 更新至 openwrt-22.03.5。
+* ddns-scripts-dnspod 切换为 OpenWrt 源的版本。
 ### 2023/04/04 build 10
 * 常规更新。
 ### 2023/03/02 build 09

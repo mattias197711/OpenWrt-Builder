@@ -239,7 +239,6 @@ ln -sf ../../../feeds/packages/net/shadowsocks-rust       package/feeds/packages
 mv OpenClash_SRC/luci-app-openclash                       package/new/luci-app-openclash
 # 额外DDNS脚本
 sed -i '/boot()/,+2d' feeds/packages/net/ddns-scripts/files/etc/init.d/ddns
-mv Jjm2473_PACKAGES/ddns-scripts_dnspod                   package/lean/ddns-scripts_dnspod
 mv Jjm2473_PACKAGES/ddns-scripts_aliyun                   package/lean/ddns-scripts_aliyun
 # Zerotier
 rm -rf feeds/packages/net/zerotier
