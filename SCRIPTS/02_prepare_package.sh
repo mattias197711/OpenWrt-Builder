@@ -214,6 +214,7 @@ mv Passwall_SRC/ssocks                                    package/new/ssocks
 mv Passwall_SRC/trojan-go                                 package/lean/trojan-go
 mv Passwall_SRC/trojan-plus                               package/new/trojan-plus
 mv Immortalwrt_PACKAGES/net/kcptun                        feeds/packages/net/kcptun
+mv SSRP_SRC/chinadns-ng                                   package/new/chinadns-ng
 mv SSRP_SRC/dns2tcp                                       package/new/dns2tcp
 mv SSRP_SRC/gn                                            package/new/gn
 mv SSRP_SRC/hysteria                                      package/new/hysteria
