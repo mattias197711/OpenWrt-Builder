@@ -1,6 +1,7 @@
 ## 变更历史 stage 10
 ### 2023/06/04 build 12
 * 常规更新。
+* 移除 R2S 的视频 DRM 支持。
 ### 2023/05/01 build 11
 * 更新至 openwrt-22.03.5。
 * 加入 chinadns-ng。
