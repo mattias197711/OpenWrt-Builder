@@ -56,7 +56,7 @@ git clone -b master --depth 1 https://github.com/BROBIRD/openwrt-r8168.git packa
 case ${MYOPENWRTTARGET} in
   R2S)
     # 显示 ARM64 CPU 型号
-    mv -f Immortalwrt_SRC/target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
+    mv -f Immortalwrt_SRC/target/linux/generic/hack-5.15/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
     # R8168 网卡驱动
     patch -p1 < ../PATCH/r8168/r8168-fix_LAN_led-for_r4s-from_TL.patch
     # 更换 UBoot 以及 Target
@@ -160,6 +160,9 @@ pushd feeds/luci
 popd
 
 ### 3. 更新部分软件包 ###
+# dwarves
+rm -rf tools/dwarves
+mv Openwrt_SRC_MSTR/tools/dwarves tools/dwarves
 # dnsmasq
 rm -rf package/network/services/dnsmasq
 mv Openwrt_SRC_MSTR/package/network/services/dnsmasq package/network/services/dnsmasq
