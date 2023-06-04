@@ -25,7 +25,7 @@ git clone -b main   --depth 1 https://github.com/Lienol/openwrt-package.git     
 git clone -b main   --depth 1 https://github.com/jjm2473/openwrt-third.git        Jjm2473_PACKAGES/      && sleep 3
 git clone -b master --depth 1 https://github.com/QiuSimons/OpenWrt-Add            QiuSimons_ADD/         && sleep 3
 git clone -b master --depth 1 https://github.com/wongsyrone/lede-1.git            Wongsyrone_SRC/        && sleep 3
-git clone -b master --depth 1 https://github.com/openwrt/openwrt.git              Openwrt_SRC_MSTR/      && sleep 3
+git clone -b main   --depth 1 https://github.com/openwrt/openwrt.git              Openwrt_SRC_MAIN/      && sleep 3
 git clone -b master --depth 1 https://github.com/openwrt/packages.git             Openwrt_PACKAGES_MSTR/ && sleep 3
 git clone -b master --depth 1 https://github.com/fw876/helloworld.git             SSRP_SRC/              && sleep 3
 pushd SSRP_SRC
@@ -162,10 +162,10 @@ popd
 ### 3. 更新部分软件包 ###
 # dwarves
 rm -rf tools/dwarves
-mv Openwrt_SRC_MSTR/tools/dwarves tools/dwarves
+mv Openwrt_SRC_MAIN/tools/dwarves tools/dwarves
 # dnsmasq
 rm -rf package/network/services/dnsmasq
-mv Openwrt_SRC_MSTR/package/network/services/dnsmasq package/network/services/dnsmasq
+mv Openwrt_SRC_MAIN/package/network/services/dnsmasq package/network/services/dnsmasq
 # 更换 golang 版本
 rm -rf feeds/packages/lang/golang
 mv Openwrt_PACKAGES_MSTR/lang/golang        feeds/packages/lang/golang
@@ -301,6 +301,6 @@ mv ../PATCH/nftables/10-ios.nft files/usr/share/nftables.d/chain-pre/forward/10-
 # 删除已有配置
 rm -rf .config
 # 删除多余的代码库
-rm -rf Immortalwrt_SRC/ Immortalwrt_PACKAGES/ Immortalwrt_LUCI/ Coolsnowwolf_SRC/ Coolsnowwolf_PACKAGES/ Coolsnowwolf_LUCI/ Lienol_SRC/ Lienol_PACKAGES/ Jjm2473_PACKAGES/ QiuSimons_ADD/ Wongsyrone_SRC/ Openwrt_SRC_MSTR/ Openwrt_PACKAGES_MSTR/ SSRP_SRC/ Passwall_SRC/ OpenClash_SRC/
+rm -rf Immortalwrt_SRC/ Immortalwrt_PACKAGES/ Immortalwrt_LUCI/ Coolsnowwolf_SRC/ Coolsnowwolf_PACKAGES/ Coolsnowwolf_LUCI/ Lienol_SRC/ Lienol_PACKAGES/ Jjm2473_PACKAGES/ QiuSimons_ADD/ Wongsyrone_SRC/ Openwrt_SRC_MAIN/ Openwrt_PACKAGES_MSTR/ SSRP_SRC/ Passwall_SRC/ OpenClash_SRC/
 unalias wget
 sync

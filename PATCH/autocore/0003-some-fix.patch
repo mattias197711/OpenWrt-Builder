@@ -4,14 +4,49 @@ Date: Mon, 17 Sep 2001 00:00:00 +0000
 Subject: [PATCH] fix script
 
 ---
- autocore/files/generic/luci-mod-status-autocore.json | 2 +-
- autocore/files/x86/autocore                          | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ autocore/files/autocore                      | 12 ++----------
+ autocore/files/luci-mod-status-autocore.json |  2 +-
+ 2 files changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/autocore/files/generic/luci-mod-status-autocore.json b/autocore/files/generic/luci-mod-status-autocore.json
+diff --git a/autocore/files/autocore b/autocore/files/autocore
+index 1fcb9dc..083c167 100755
+--- a/autocore/files/autocore
++++ b/autocore/files/autocore
+@@ -5,23 +5,15 @@ START=99
+ 
+ start() {
+ 	rfc=4096
+-	threads="$(grep -c "processor" "/proc/cpuinfo")"
++	threads="$(grep -c 'processor' '/proc/cpuinfo')"
+ 
+ 	sysctl -w net.core.rps_sock_flow_entries="$(( rfc * threads ))"
+ 
+-	for fileRps in /sys/class/net/eth*/queues/rx-*/rps_cpus
+-	do
+-		echo "$threads" > "$fileRps"
+-	done
+-
+ 	for fileRfc in /sys/class/net/eth*/queues/rx-*/rps_flow_cnt
+ 	do
+ 		echo "$rfc" > "$fileRfc"
+ 	done
+ 
+-	uci set network.@globals[0].packet_steering="1"
+-	uci commit network
+-
+ 	for i in $(ip address | awk -F ': ' '/eth[0-9]+/ {print $2}' | xargs)
+ 	do
+ 		{
+@@ -36,4 +28,4 @@ start() {
+ 			ethtool -K "$i" ufo on
+ 		}
+ 	done
+-} >"/dev/null" 2>&1
++} >/dev/null 2>&1
+diff --git a/autocore/files/luci-mod-status-autocore.json b/autocore/files/luci-mod-status-autocore.json
 index c9b930e..47c4d33 100644
---- a/autocore/files/generic/luci-mod-status-autocore.json
-+++ b/autocore/files/generic/luci-mod-status-autocore.json
+--- a/autocore/files/luci-mod-status-autocore.json
++++ b/autocore/files/luci-mod-status-autocore.json
 @@ -3,7 +3,7 @@
  		"description": "Grant access to autocore",
  		"read": {
@@ -21,38 +56,3 @@ index c9b930e..47c4d33 100644
  			}
  		}
  	}
-diff --git a/autocore/files/x86/autocore b/autocore/files/x86/autocore
-index 1fcb9dc..1bd7167 100755
---- a/autocore/files/x86/autocore
-+++ b/autocore/files/x86/autocore
-@@ -5,13 +5,13 @@ START=99
- 
- start() {
- 	rfc=4096
--	threads="$(grep -c "processor" "/proc/cpuinfo")"
-+	threads="$(grep -c 'processor' '/proc/cpuinfo')"
- 
- 	sysctl -w net.core.rps_sock_flow_entries="$(( rfc * threads ))"
- 
- 	for fileRps in /sys/class/net/eth*/queues/rx-*/rps_cpus
- 	do
--		echo "$threads" > "$fileRps"
-+		:
- 	done
- 
- 	for fileRfc in /sys/class/net/eth*/queues/rx-*/rps_flow_cnt
-@@ -19,7 +19,7 @@ start() {
- 		echo "$rfc" > "$fileRfc"
- 	done
- 
--	uci set network.@globals[0].packet_steering="1"
-+	uci set network.@globals[0].packet_steering='1'
- 	uci commit network
- 
- 	for i in $(ip address | awk -F ': ' '/eth[0-9]+/ {print $2}' | xargs)
-@@ -36,4 +36,4 @@ start() {
- 			ethtool -K "$i" ufo on
- 		}
- 	done
--} >"/dev/null" 2>&1
-+} >/dev/null 2>&1
