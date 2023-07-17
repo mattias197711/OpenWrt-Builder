@@ -229,6 +229,7 @@ mv SSRP_SRC/shadowsocksr-libev                            package/lean/shadowsoc
 mv SSRP_SRC/simple-obfs                                   package/lean/simple-obfs
 mv SSRP_SRC/tcping                                        package/lean/tcping
 mv SSRP_SRC/trojan                                        package/lean/trojan
+mv SSRP_SRC/tuic-client                                   package/new/tuic-client
 mv SSRP_SRC/v2ray-core                                    package/lean/v2ray-core
 mv SSRP_SRC/v2ray-geodata                                 package/new/v2ray-geodata
 mv SSRP_SRC/v2ray-plugin                                  package/lean/v2ray-plugin
