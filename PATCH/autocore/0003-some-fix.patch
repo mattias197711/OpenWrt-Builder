@@ -44,15 +44,15 @@ index 1fcb9dc..083c167 100755
 -} >"/dev/null" 2>&1
 +} >/dev/null 2>&1
 diff --git a/autocore/files/luci-mod-status-autocore.json b/autocore/files/luci-mod-status-autocore.json
-index c9b930e..47c4d33 100644
+index 5dfd32f..ede985f 100644
 --- a/autocore/files/luci-mod-status-autocore.json
 +++ b/autocore/files/luci-mod-status-autocore.json
 @@ -3,7 +3,7 @@
  		"description": "Grant access to autocore",
  		"read": {
  			"ubus": {
--				"luci": [ "getCPUInfo", "getETHInfo", "getTempInfo" ]
-+				"luci": [ "getCPUInfo", "getETHInfo", "getTempInfo", "getCPUBench", "getCPUUsage" ]
+-				"luci": [ "getCPUInfo", "getTempInfo" ],
++				"luci": [ "getCPUInfo", "getTempInfo", "getETHInfo", "getCPUBench", "getCPUUsage" ],
+ 				"network.device": [ "status" ]
  			}
  		}
- 	}
