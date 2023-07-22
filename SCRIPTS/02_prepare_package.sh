@@ -62,11 +62,6 @@ case ${MYOPENWRTTARGET} in
     # 更换 Target
     sed -i 's,-mcpu=generic,-mcpu=cortex-a53+crypto,g' include/target.mk
     mv -f ../PATCH/rockchip-5.10/* target/linux/rockchip/patches-5.10/
-    # 添加 GPU 驱动
-    mv -f Immortalwrt_SRC/package/kernel/linux/modules/video.mk package/kernel/linux/modules/video.mk
-    sed -i '/nouveau\.ko/d'                          package/kernel/linux/modules/video.mk
-    sed -i 's,+LINUX_6_1:kmod-drm-display-helper,,g' target/linux/rockchip/modules.mk
-    sed -i '/drm_dp_aux_bus\.ko/d'                   target/linux/rockchip/modules.mk
     # 其他内核配置
     echo '
 # CONFIG_SHORTCUT_FE is not set
