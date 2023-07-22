@@ -59,30 +59,9 @@ case ${MYOPENWRTTARGET} in
     mv -f Immortalwrt_SRC/target/linux/generic/hack-5.15/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
     # R8168 网卡驱动
     patch -p1 < ../PATCH/r8168/r8168-fix_LAN_led-for_r4s-from_TL.patch
-    # 更换 UBoot 以及 Target
+    # 更换 Target
     sed -i 's,-mcpu=generic,-mcpu=cortex-a53+crypto,g' include/target.mk
-    rm -rf target/linux/rockchip
-    mv Coolsnowwolf_SRC/target/linux/rockchip target/linux/rockchip
-    rm -rf target/linux/rockchip/Makefile
-    wget -P target/linux/rockchip/ https://raw.githubusercontent.com/openwrt/openwrt/openwrt-22.03/target/linux/rockchip/Makefile
-    rm -rf target/linux/rockchip/patches-5.10/002-net-usb-r8152-add-LED-configuration-from-OF.patch
-    rm -rf target/linux/rockchip/patches-5.10/003-dt-bindings-net-add-RTL8152-binding-documentation.patch
     mv -f ../PATCH/rockchip-5.10/* target/linux/rockchip/patches-5.10/
-    rm -rf package/firmware/linux-firmware/intel.mk package/firmware/linux-firmware/Makefile
-    wget -P package/firmware/linux-firmware/ https://raw.githubusercontent.com/coolsnowwolf/lede/master/package/firmware/linux-firmware/intel.mk
-    wget -P package/firmware/linux-firmware/ https://raw.githubusercontent.com/coolsnowwolf/lede/master/package/firmware/linux-firmware/Makefile
-    # 用假的dts填补缺失的rk3568
-    mkdir -p              target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
-    mv ../PATCH/dts/*.dts target/linux/rockchip/files-5.10/arch/arm64/boot/dts/rockchip/
-    mkdir -p              target/linux/rockchip/files-5.10/include/linux/
-    mv ../PATCH/dts/*.h   target/linux/rockchip/files-5.10/include/linux/
-    mkdir -p              target/linux/rockchip/files-5.10/drivers/net/phy/
-    mv ../PATCH/dts/*.c   target/linux/rockchip/files-5.10/drivers/net/phy/
-    # 替换uboot
-    rm -rf package/boot/uboot-rockchip
-    mv Coolsnowwolf_SRC/package/boot/arm-trusted-firmware-rockchip-vendor package/boot/arm-trusted-firmware-rockchip-vendor
-    mv Coolsnowwolf_SRC/package/boot/uboot-rockchip                       package/boot/uboot-rockchip
-    sed -i '/r2c-rk3328:arm-trusted/d'                                    package/boot/uboot-rockchip/Makefile
     # 添加 GPU 驱动
     mv -f Immortalwrt_SRC/package/kernel/linux/modules/video.mk package/kernel/linux/modules/video.mk
     sed -i '/nouveau\.ko/d'                          package/kernel/linux/modules/video.mk
