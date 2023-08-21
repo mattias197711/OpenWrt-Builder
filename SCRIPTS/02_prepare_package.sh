@@ -143,6 +143,10 @@ mv Openwrt_SRC_MAIN/package/network/services/dnsmasq package/network/services/dn
 # 更换 golang 版本
 rm -rf feeds/packages/lang/golang
 mv Openwrt_PACKAGES_MSTR/lang/golang        feeds/packages/lang/golang
+# 回滚 go 1.20.x
+pushd feeds/packages
+  wget -qO - https://github.com/openwrt/packages/commit/a80af7e44347c50c745967c17f20c89385f1ea08.patch | patch -R -p1
+popd
 # AutoCore & coremark
 rm -rf feeds/packages/utils/coremark
 mv Immortalwrt_PACKAGES/utils/coremark      feeds/packages/utils/coremark
