@@ -4,12 +4,11 @@ Date: Mon, 17 Sep 2001 00:00:00 +0000
 Subject: [PATCH] fix script
 
 ---
- autocore/files/autocore                      | 12 ++----------
- autocore/files/luci-mod-status-autocore.json |  2 +-
- 2 files changed, 3 insertions(+), 11 deletions(-)
+ autocore/files/autocore | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
 diff --git a/autocore/files/autocore b/autocore/files/autocore
-index 1fcb9dc..083c167 100755
+index 1fcb9dc..91a3cb8 100755
 --- a/autocore/files/autocore
 +++ b/autocore/files/autocore
 @@ -5,23 +5,15 @@ START=99
@@ -17,7 +16,7 @@ index 1fcb9dc..083c167 100755
  start() {
  	rfc=4096
 -	threads="$(grep -c "processor" "/proc/cpuinfo")"
-+	threads="$(grep -c 'processor' '/proc/cpuinfo')"
++	threads="$(grep -c processor /proc/cpuinfo)"
  
  	sysctl -w net.core.rps_sock_flow_entries="$(( rfc * threads ))"
  
@@ -43,16 +42,3 @@ index 1fcb9dc..083c167 100755
  	done
 -} >"/dev/null" 2>&1
 +} >/dev/null 2>&1
-diff --git a/autocore/files/luci-mod-status-autocore.json b/autocore/files/luci-mod-status-autocore.json
-index 5dfd32f..ede985f 100644
---- a/autocore/files/luci-mod-status-autocore.json
-+++ b/autocore/files/luci-mod-status-autocore.json
-@@ -3,7 +3,7 @@
- 		"description": "Grant access to autocore",
- 		"read": {
- 			"ubus": {
--				"luci": [ "getCPUInfo", "getTempInfo" ],
-+				"luci": [ "getCPUInfo", "getTempInfo", "getETHInfo", "getCPUBench", "getCPUUsage" ],
- 				"network.device": [ "status" ]
- 			}
- 		}

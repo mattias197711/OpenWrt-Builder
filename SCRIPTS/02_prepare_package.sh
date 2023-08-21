@@ -151,7 +151,7 @@ pushd package/lean
   patch -p1 < ../../../PATCH/autocore/0003-some-fix.patch
 popd
 pushd feeds/luci
-  patch -p1 < ../../../PATCH/autocore/0004-luci-base-add-functions-to-get-info.patch
+  patch -p1 < ../../../PATCH/autocore/0004-luci-base-add-fullcone-flag.patch
 popd
 # AutoReboot定时重启
 mv Coolsnowwolf_LUCI/applications/luci-app-autoreboot package/lean/luci-app-autoreboot

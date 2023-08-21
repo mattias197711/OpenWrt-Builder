@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KaneGreen <737445366KG@Gmail.com>
+Date: Mon, 17 Sep 2001 00:00:00 +0000
+Subject: [PATCH] luci-base: add system feature flag for fullcone nat
+
+---
+ modules/luci-base/root/usr/libexec/rpcd/luci | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/modules/luci-base/root/usr/libexec/rpcd/luci b/modules/luci-base/root/usr/libexec/rpcd/luci
+index 7ce59a3..e47c012 100644
+--- a/modules/luci-base/root/usr/libexec/rpcd/luci
++++ b/modules/luci-base/root/usr/libexec/rpcd/luci
+@@ -214,6 +214,7 @@ local methods = {
+ 			rv.firewall4     = fs.access("/sbin/fw4")
+ 			rv.opkg          = fs.access("/bin/opkg")
+ 			rv.offloading    = fs.access("/sys/module/xt_FLOWOFFLOAD/refcnt") or fs.access("/sys/module/nft_flow_offload/refcnt")
++			rv.fullcone      = fs.access("/sys/module/xt_FULLCONENAT/refcnt") or fs.access("/sys/module/nft_fullcone/refcnt")
+ 			rv.br2684ctl     = fs.access("/usr/sbin/br2684ctl")
+ 			rv.swconfig      = fs.access("/sbin/swconfig")
+ 			rv.odhcpd        = fs.access("/usr/sbin/odhcpd")
