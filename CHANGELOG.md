@@ -1,4 +1,6 @@
 ## 变更历史 stage 10
+### 2023/08/21 build 14
+* OpenSSL 更新至 `1.1.1v`。
 ### 2023/07/22 build 13
 * 移除 UBoot 替换
 * 添加 Tuic-Client。
