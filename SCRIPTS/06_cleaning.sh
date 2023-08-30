@@ -1,15 +1,21 @@
 #!/bin/bash
+MYWORKDIR=$(mktemp -d)
 case ${MYOPENWRTTARGET} in
   R2S)
-    /bin/ls | grep -v -E '(squashfs|manifest)' | xargs -s1024 /bin/rm -rf
+    mv -a *squashfs* *manifest* ${MYWORKDIR}/
     ;;
   x86)
-    /bin/ls | grep -v -E '(combined|manifest)' | xargs -s1024 /bin/rm -rf
+    mv -f *combined* *manifest* ${MYWORKDIR}/
     ;;
 esac
-gzip -d *.gz
-gzip --best --keep *.img
-sha256sum openwrt* | tee sha256_$(date "+%Y%m%d").hash
-md5sum    openwrt* | tee    md5_$(date "+%Y%m%d").hash
-rm -f *.img
+rm -rf ./*
+pushd ${MYWORKDIR}
+  gzip -d *.gz
+  gzip --best --keep *.img
+  sha256sum openwrt* | tee sha256_$(date "+%Y%m%d").hash
+  md5sum    openwrt* | tee    md5_$(date "+%Y%m%d").hash
+  rm -f *.img
+popd
+mv -f ${MYWORKDIR}/* ./
+rmdir ${MYWORKDIR}
 exit 0

@@ -1,0 +1,66 @@
+#!/bin/sh
+# file mode
+chmod 0755 /etc/init.d/*
+# timezone
+uci set system.@system[0].timezone='CST-8'
+uci set system.@system[0].zonename='Asia/Shanghai'
+uci del system.ntp.server
+uci add_list system.ntp.server='ntp2.tencent.com'
+uci add_list system.ntp.server='ntp.ntsc.ac.cn'
+uci add_list system.ntp.server='ntp.aliyun.com'
+uci add_list system.ntp.server='cn.ntp.org.cn'
+uci commit system
+# feed
+sed -i 's,downloads.openwrt.org,mirrors.cloud.tencent.com/openwrt,g' /etc/opkg/distfeeds.conf
+# uhttpd
+uci set uhttpd.main.redirect_https='1'
+uci commit uhttpd
+/etc/init.d/uhttpd restart
+# enable Fullcone NAT
+uci set firewall.@defaults[0].fullcone='1'
+uci set firewall.@defaults[0].flow_offloading='0'
+uci commit firewall
+# dropbear
+uci set dropbear.@dropbear[0].Interface='lan'
+uci commit dropbear
+sync
+/etc/init.d/dropbear restart
+# enable UPnP
+uci set upnpd.config.enabled='1'
+uci commit upnpd
+# enable Packet Steering
+uci set network.globals.packet_steering='1'
+uci commit network
+# PASSWALL
+[ -f '/usr/share/v2ray/geoip.dat' ] && uci set passwall.@global_rules[0].v2ray_location_asset='/usr/share/v2ray/'
+uci set passwall.@global_subscribe[0].ss_aead_type='shadowsocks-rust'
+uci commit passwall
+#SSRP IPV6 HACK
+sed -i '/127.255.255.255/d' /etc/config/shadowsocksr
+uci add_list shadowsocksr.@access_control[0].wan_bp_ips='127.255.255.255'
+uci commit shadowsocksr
+# dnsmasq
+sed -i '/log-facility/d' /etc/dnsmasq.conf
+echo 'log-facility=/dev/null' >> /etc/dnsmasq.conf
+/etc/init.d/dnsmasq restart
+# symlink for ip and wget-ssl command
+[ ! -f '/usr/bin/ip' ]       && [ -x '/sbin/ip' ]           && ln -sf /sbin/ip /usr/bin/ip
+[ ! -f '/usr/bin/wget-ssl' ] && [ -x '/usr/bin/wget' ]      && ln -sf /usr/bin/wget /usr/bin/wget-ssl
+[ ! -f '/usr/sbin/trojan' ]  && [ -x '/usr/bin/trojan-go' ] && ln -sf /usr/bin/trojan-go /usr/bin/trojan
+# opkg hold patched packages
+opkg flag hold dnsmasq-full
+opkg flag hold firewall
+opkg flag hold luci-app-firewall
+# disable wrtbwmon auto-start
+uci del wrtbwmon.general.enabled
+uci commit wrtbwmon
+# stop some services
+/etc/init.d/haproxy disable 2>/dev/null
+/etc/init.d/haproxy stop 2>/dev/null
+/etc/init.d/socat disable 2>/dev/null
+/etc/init.d/socat stop 2>/dev/null
+# delete luci cache
+rm -rf /tmp/luci-modulecache
+rm  -f /tmp/luci-indexcache
+sync
+exit 0
