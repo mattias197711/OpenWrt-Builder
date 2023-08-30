@@ -15,13 +15,13 @@ cp -f ../SCRIPTS/*.sh ./
 /bin/bash ./02_prepare_package.sh
 
 echo "Modification     $(date)" | tee -a ../../buildtime.txt
-/bin/bash ./03_convert_translation.sh
+/bin/bash ./03_remove_upx.sh
+/bin/bash ./04_convert_translation.sh
 /bin/bash ./05_create_acl_for_luci.sh -a
 
 echo "Make Defconfig   $(date)" | tee -a ../../buildtime.txt
 [ -f "../SEED/${MYOPENWRTTARGET}.config.seed" ] || MYOPENWRTTARGET='R2S'
 cp -f "../SEED/${MYOPENWRTTARGET}.config.seed" .config
-cat ../SEED/crypto.seed >> .config
 cat ../SEED/more.seed >> .config
 make defconfig
 
