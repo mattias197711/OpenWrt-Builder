@@ -166,8 +166,8 @@ mv -f ../Openwrt_PKG_MSTR/net/miniupnpd/ ./feeds/packages/net/miniupnpd/
 mv -f ../OpenWrt-Add/luci-app-irqbalance/ ./package/new/luci-app-irqbalance/
 # CPU 控制相关
 mv -f ../Immortalwrt_PKG/utils/cpulimit/          ./feeds/packages/utils/cpulimit/
-mv -f ../Immortalwrt_Luci_2305/luci-app-cpulimit/ ./package/new/luci-app-cpulimit/
-mv -f ../Immortalwrt_Luci_2305/luci-app-cpufreq/  ./feeds/luci/applications/luci-app-cpufreq/
+mv -f ../Immortalwrt_Luci_2305/applications/luci-app-cpulimit/ ./package/new/luci-app-cpulimit/
+mv -f ../Immortalwrt_Luci_2305/applications/luci-app-cpufreq/  ./feeds/luci/applications/luci-app-cpufreq/
 ln -sf ../../../feeds/packages/utils/cpulimit            ./package/feeds/packages/cpulimit
 ln -sf ../../../feeds/luci/applications/luci-app-cpufreq ./package/feeds/luci/luci-app-cpufreq
 # DDNS
