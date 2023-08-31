@@ -36,8 +36,8 @@ git clone --depth 1 https://github.com/BROBIRD/openwrt-r8168.git  package/new/r8
 # UPX
 sed -i '/patchelf pkgconf/i\tools-y += ucl upx'                                  ./tools/Makefile
 sed -i '\/autoconf\/compile :=/i\$(curdir)/upx/compile := $(curdir)/ucl/compile' ./tools/Makefile
-mv -rf ../Lienol_MSTR/tools/ucl/ ./tools/ucl/
-mv -rf ../Lienol_MSTR/tools/upx/ ./tools/upx/
+mv -f ../Lienol_MSTR/tools/ucl/ ./tools/ucl/
+mv -f ../Lienol_MSTR/tools/upx/ ./tools/upx/
 # 更换 golang 版本
 #rm -rf ./feeds/packages/lang/golang
 #mv -f ../Openwrt_PACKAGES_MSTR/lang/golang/ ./feeds/packages/lang/golang/
