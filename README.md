@@ -26,14 +26,14 @@ https://github.com/KaneGreen/OpenWrt-builder_R2S-x86/actions
 5. R2S 版 sys 灯引导时闪烁，启动后常亮，也是上游的设定，有疑问请联系 OpenWrt 官方社区。
 
 ### 版本信息：
-LUCI版本：openwrt-22.03（当日最新）
+LUCI版本：OpenWrt-23.05 RC（当日最新）
 
-其他模块版本：openwrt-22.03（当日最新）
+其他模块版本：OpenWrt-23.05 RC（当日最新）
 
 ### 特性及功能：
 1. O2 优化级别。R2S 版核心频率 1.5GHz，SquashFS 格式。x86 版 EXT4 格式，非 UEFI 版本。
 
-2. 内置一款主题，包含 SSRP，OpenClash，SQM，网络唤醒，DDNS，UPNP，FullCone（默认开启），流量分载（防火墙中手动开启），BBR（默认开启）。  
+2. 内置一款主题，包含 SSRP，OpenClash，SQM，网络唤醒，DDNS，UPNP，FullCone（默认开启），流量分载（防火墙中手动开启），BBRv2（默认开启）。  
 [完整功能列表](./featurelist.md)
 
 3. Github Actions 里面的编译结果包含 SHA256 哈希校验和 MD5 哈希校验文件。同样的内容也会显示在 Actions 的编译日志的 `Cleaning and hashing` 步骤（倒数第四步）里。**请注意核对和校验固件文件的完整性！**
@@ -46,7 +46,7 @@ x86 版不支持此功能。
 
 ### 本地一键编译脚本（实验性）
 1. 首先自行配置环境， Ubuntu 22.04 可以参考 [Actions 脚本的第 56 行](.github/workflows/R2S-OpenWrt.yml)。
-2. 获取一键编译脚本：[onekeybuild.sh](./onekeybuild.sh)。根据具体情况修改脚本，例如第 31 行的编译工具链的并行数。
+2. 获取一键编译脚本：[onekeybuild.sh](./onekeybuild.sh)。根据具体情况修改脚本，例如第 32 行的编译工具链的并行数。
 3. 确保工作目录下没有同名目录或文件：`OpenWrt-builder_R2S-x86`、`buildtime.txt`。
 4. 通过环境变量 `MYOPENWRTTARGET` 指定编译的固件：`R2S`、`x86`；注意区分大小写，默认编译 R2S 的固件。
 5. 通过环境变量 `MYMAKENUMBER` 指定编译的并行数，默认 4 并行。
