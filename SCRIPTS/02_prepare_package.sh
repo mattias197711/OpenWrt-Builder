@@ -197,7 +197,7 @@ rm -rf ./feeds/packages/net/v2ray-geodata
 rm -rf ./feeds/packages/net/xray-core
 mv -f ../Coolsnowwolf_PKG/net/shadowsocks-libev/      ./feeds/packages/net/shadowsocks-libev/
 mv -f ../Immortalwrt_PKG/net/kcptun/                  ./feeds/packages/net/kcptun/
-mv -f ../Immortalwrt_PKG/xray-core/                   ./feeds/packages/net/xray-core/
+mv -f ../Immortalwrt_PKG/net/xray-core/               ./feeds/packages/net/xray-core/
 mv -f ../Passwall_PKG/brook/                          ./package/new/brook/
 mv -f ../Passwall_PKG/chinadns-ng/                    ./package/new/chinadns-ng/
 mv -f ../Passwall_PKG/dns2socks/                      ./package/new/dns2socks/
