@@ -53,7 +53,8 @@ jobs:
       run: |
         sudo -E rm -rf /etc/apt/sources.list.d/*
         sudo -E apt-get -qq --fix-missing update
-        sudo -E apt-get -qq --fix-missing install -y ack antlr3 asciidoc autoconf automake autopoint bash binutils bison build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler diffutils dwarves ecj fastjar findutils flex g++ g++-multilib gawk gcc gcc-multilib gettext git gnutls-dev gperf grep gzip haveged help2man intltool jq lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libncurses5-dev libncursesw5 libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libthread-queue-any-perl libtool lld llvm lrzsz make genisoimage msmtp nano ninja-build p7zip-full patch perl perl-modules pkgconf python2-dev python3-dev python3-docutils python3-pip python3-ply python3-pyelftools qemu-utils r-base-core re2c rsync scons squashfs-tools subversion swig texinfo time uglifyjs unzip upx-ucl util-linux vim wget xmlto xxd zlib1g-dev
+        sudo -E apt-get -qq --fix-missing install -y antlr3 asciidoc autoconf automake autopoint bash binutils build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler diffutils dwarves findutils flex g++ g++-multilib gawk gcc gcc-multilib genisoimage gettext git gnutls-dev gperf grep gzip help2man intltool jq lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev libncurses-dev libreadline-dev libssl-dev libthread-queue-any-perl libtool libusb-dev lld llvm lrzsz make nano p7zip-full patch perl perl-modules python2-dev python3-dev python3-pip python3-ply python3-pyelftools qemu-utils rsync scons subversion swig texinfo time unzip upx-ucl util-linux vim wget xsltproc xxd zlib1g-dev
+        sudo -E pip3 install pylibfdt
         sudo -E apt-get -qq clean
         git config --global user.name 'GitHub Actions' && git config --global user.email 'noreply@github.com'
         df -h
