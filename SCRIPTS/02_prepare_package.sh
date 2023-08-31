@@ -273,7 +273,7 @@ ln -sf ../../../feeds/packages/libs/toml11      ./package/feeds/packages/toml11
 # 清理内存
 mv -f ../Immortalwrt_Luci_2305/applications/luci-app-ramfree/ ./package/new/luci-app-ramfree/
 # socat
-mv -f ../Lienol_pkg/luci-app-socat/ ./package/new/luci-app-socat/
+mv -f ../Lienol_PKG/luci-app-socat/ ./package/new/luci-app-socat/
 pushd package/new
   wget -qO - https://github.com/Lienol/openwrt-package/pull/39.patch | patch -p1
 popd
