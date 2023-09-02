@@ -33,7 +33,7 @@ LUCI版本：OpenWrt-23.05 RC（当日最新）
 ### 特性及功能：
 1. O2 优化级别。R2S 版核心频率 1.5GHz，SquashFS 格式。x86 版 EXT4 格式，非 UEFI 版本。
 
-2. 内置一款主题，包含 SSRP，OpenClash，SQM，网络唤醒，DDNS，UPNP，FullCone（默认开启），流量分载（防火墙中手动开启），BBRv2（默认开启）。  
+2. 内置一款主题，包含 SSRP，OpenClash，SQM，网络唤醒，DDNS，UPNP，FullCone（默认开启），流量分载（防火墙中手动开启），BBR v3（默认开启）。  
 [完整功能列表](./featurelist.md)
 
 3. Github Actions 里面的编译结果包含 SHA256 哈希校验和 MD5 哈希校验文件。同样的内容也会显示在 Actions 的编译日志的 `Cleaning and hashing` 步骤（倒数第四步）里。**请注意核对和校验固件文件的完整性！**

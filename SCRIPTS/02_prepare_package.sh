@@ -18,10 +18,8 @@ mkdir -p package/new
 ### 2. 补丁 ###
 # TCP optimizations
 mv -f ../PATCH/backport/TCP/* ./target/linux/generic/backport-5.15/
-# BBR v2
-mv -f ../PATCH/BBRv2/kernel/* ./target/linux/generic/hack-5.15/
-mv -f ../PATCH/BBRv2/files/sysctl-tcp-bbr2.conf ./package/kernel/linux/files/
-wget -qO - https://github.com/openwrt/openwrt/commit/7db9763bd2dda2fa6901bc631817d5102b6b7f7f.patch | patch -p1
+# BBR v3
+mv -f ../PATCH/BBRv3/kernel/* ./target/linux/generic/backport-5.15/
 # mbedTLS
 rm -rf ./package/libs/mbedtls
 mv ../Immortalwrt_2305/package/libs/mbedtls/ ./package/libs/mbedtls/

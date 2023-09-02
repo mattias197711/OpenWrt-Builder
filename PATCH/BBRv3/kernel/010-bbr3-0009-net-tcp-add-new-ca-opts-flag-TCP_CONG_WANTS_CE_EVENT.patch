@@ -1,7 +1,7 @@
-From 87bdd4075a0281f498b2722cfac903a9ee3d4f24 Mon Sep 17 00:00:00 2001
+From 86e3732c0ec7939ab5500270885308ceb238a27a Mon Sep 17 00:00:00 2001
 From: Yousuk Seung <ysseung@google.com>
 Date: Wed, 23 May 2018 17:55:54 -0700
-Subject: [PATCH 13/21] net-tcp: add new ca opts flag TCP_CONG_WANTS_CE_EVENTS
+Subject: [PATCH 09/23] net-tcp: add new ca opts flag TCP_CONG_WANTS_CE_EVENTS
 
 Add a a new ca opts flag TCP_CONG_WANTS_CE_EVENTS that allows a
 congestion control module to receive CE events.
@@ -20,9 +20,11 @@ Change-Id: I2255506985242f376d910c6fd37daabaf4744f24
  net/ipv4/tcp_input.c |  4 ++--
  2 files changed, 15 insertions(+), 3 deletions(-)
 
+diff --git a/include/net/tcp.h b/include/net/tcp.h
+index c5a1f55bf..2a7632c87 100644
 --- a/include/net/tcp.h
 +++ b/include/net/tcp.h
-@@ -1012,7 +1012,11 @@ enum tcp_ca_ack_event_flags {
+@@ -1010,7 +1010,11 @@ enum tcp_ca_ack_event_flags {
  #define TCP_CONG_NON_RESTRICTED 0x1
  /* Requires ECN/ECT set on all packets */
  #define TCP_CONG_NEEDS_ECN	0x2
@@ -35,7 +37,7 @@ Change-Id: I2255506985242f376d910c6fd37daabaf4744f24
  
  union tcp_cc_info;
  
-@@ -1141,6 +1145,14 @@ static inline char *tcp_ca_get_name_by_k
+@@ -1138,6 +1142,14 @@ static inline char *tcp_ca_get_name_by_key(u32 key, char *buffer)
  }
  #endif
  
@@ -50,9 +52,11 @@ Change-Id: I2255506985242f376d910c6fd37daabaf4744f24
  static inline bool tcp_ca_needs_ecn(const struct sock *sk)
  {
  	const struct inet_connection_sock *icsk = inet_csk(sk);
+diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+index 6446e88eb..bc880c5b4 100644
 --- a/net/ipv4/tcp_input.c
 +++ b/net/ipv4/tcp_input.c
-@@ -349,7 +349,7 @@ static void __tcp_ecn_check_ce(struct so
+@@ -349,7 +349,7 @@ static void __tcp_ecn_check_ce(struct sock *sk, const struct sk_buff *skb)
  			tcp_enter_quickack_mode(sk, 2);
  		break;
  	case INET_ECN_CE:
@@ -61,7 +65,7 @@ Change-Id: I2255506985242f376d910c6fd37daabaf4744f24
  			tcp_ca_event(sk, CA_EVENT_ECN_IS_CE);
  
  		if (!(tp->ecn_flags & TCP_ECN_DEMAND_CWR)) {
-@@ -360,7 +360,7 @@ static void __tcp_ecn_check_ce(struct so
+@@ -360,7 +360,7 @@ static void __tcp_ecn_check_ce(struct sock *sk, const struct sk_buff *skb)
  		tp->ecn_flags |= TCP_ECN_SEEN;
  		break;
  	default:
@@ -70,3 +74,6 @@ Change-Id: I2255506985242f376d910c6fd37daabaf4744f24
  			tcp_ca_event(sk, CA_EVENT_ECN_NO_CE);
  		tp->ecn_flags |= TCP_ECN_SEEN;
  		break;
+-- 
+2.39.3
+
