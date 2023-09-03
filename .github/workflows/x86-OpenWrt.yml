@@ -112,6 +112,7 @@ jobs:
     - name: If Toolchain Error
       if: steps.maketoolchain.outcome == 'failure'
       run: |
+        df -h
         cd openwrt && make toolchain/install -j1 V=s
 
     - name: Compile OpenWrt
@@ -125,6 +126,7 @@ jobs:
     - name: If Compiling Error
       if: steps.compileopenwrt.outcome == 'failure'
       run: |
+        df -h
         cat openwrt/.config
         echo '================================================================'
         cd openwrt && make -j1 V=s
