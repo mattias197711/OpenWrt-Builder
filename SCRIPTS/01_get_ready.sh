@@ -12,17 +12,25 @@ echo "LATESTRELEASE=$LATESTRELEASE" >> ./OPENWRT_GIT_TAG
 git clone --single-branch -b 'openwrt-23.05'  --depth 1  https://github.com/openwrt/openwrt.git openwrt
 git clone --single-branch -b "$LATESTRELEASE" --depth 1  https://github.com/openwrt/openwrt.git openwrt_snapshot
 
-rm -rf ./openwrt/package/
-mv -f  ./openwrt_snapshot/package            ./openwrt/package
-mv -f  ./openwrt_snapshot/feeds.conf.default ./openwrt/feeds.conf.default
-rm -rf ./openwrt_snapshot/
-pushd openwrt
-  rm -rf ./package/base-files/ ./package/firmware/ ./package/kernel/ ./package/Makefile
-  git checkout HEAD package/base-files/
-  git checkout HEAD package/firmware/
-  git checkout HEAD package/kernel/
-  git checkout HEAD package/Makefile
-popd
+mv -f ./openwrt/package/base-files/ ./BAK_base-files/
+mv -f ./openwrt/package/firmware/   ./BAK_firmware/
+mv -f ./openwrt/package/kernel/     ./BAK_kernel/
+mv -f ./openwrt/package/Makefile    ./BAK_Makefile
+
+rm -rf ./openwrt_snapshot/package/base-files/
+rm -rf ./openwrt_snapshot/package/firmware/
+rm -rf ./openwrt_snapshot/package/kernel/
+rm -rf ./openwrt_snapshot/package/Makefile
+
+rm -rf ./openwrt/package
+mv -f ./openwrt_snapshot/package ./openwrt/package
+
+mv -f ./BAK_base-files ./openwrt/package/base-files
+mv -f ./BAK_firmware   ./openwrt/package/firmware
+mv -f ./BAK_kernel     ./openwrt/package/kernel
+mv -f ./BAK_Makefile   ./openwrt/package/Makefile
+
+mv -f ./openwrt_snapshot/feeds.conf.default ./openwrt/feeds.conf.default
 
 # 获取额外代码
 git clone -b openwrt-23.05 --depth 1 https://github.com/immortalwrt/immortalwrt.git    Immortalwrt_2305/
