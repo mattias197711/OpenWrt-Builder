@@ -58,9 +58,9 @@ case ${MYOPENWRTTARGET} in
     # Patch R8168 网卡驱动
     patch -p1 < ../PATCH/r8168/r8168-fix_LAN_led-for_r4s-from_TL.patch
     # 更换为 ImmortalWrt Uboot 以及 Target
-    rm -rf ./package/boot/uboot-rockchip ./package/boot/arm-trusted-firmware-rockchip ./target/linux/rockchip
-    mv -f ../Immortalwrt_2305/package/boot/uboot-rockchip/                ./package/boot/uboot-rockchip/
-    mv -f ../Immortalwrt_2305/package/boot/arm-trusted-firmware-rockchip/ ./package/boot/arm-trusted-firmware-rockchip/
+    rm -rf ./package/boot/arm-trusted-firmware-rockchip ./package/boot/uboot-rockchip ./target/linux/rockchip
+    cp -r ../Immortalwrt_2305/package/boot/arm-trusted-firmware-rockchip/ ./package/boot/arm-trusted-firmware-rockchip/
+    cp -r ../Immortalwrt_2305/package/boot/uboot-rockchip/                ./package/boot/uboot-rockchip/
     mv -f ../Immortalwrt_2305/target/linux/rockchip/                      ./target/linux/rockchip/
     mv -f ../PATCH/rockchip-5.15/*                                        ./target/linux/rockchip/patches-5.15/
     ;;
@@ -331,7 +331,7 @@ case ${MYOPENWRTTARGET} in
     ;;
 esac
 zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' > .vermagic
-sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
+sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' ./include/kernel-defaults.mk
 rm -f Packages.gz
 
 # 删除多余的代码库
