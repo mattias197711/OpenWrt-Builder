@@ -35,7 +35,7 @@ git clone -b master        --depth 1 https://github.com/coolsnowwolf/lede.git   
 sleep 3
 git clone -b master        --depth 1 https://github.com/coolsnowwolf/packages.git      Coolsnowwolf_PKG/
 sleep 3
-git clone -b master        --depth 1 https://github.com/Lienol/openwrt.git             Lienol_MSTR/
+git clone -b 23.05         --depth 1 https://github.com/Lienol/openwrt.git             Lienol_MSTR/
 sleep 3
 git clone -b main          --depth 1 https://github.com/Lienol/openwrt-package.git     Lienol_PKG/
 sleep 3
@@ -45,9 +45,9 @@ git clone -b master        --depth 1 https://github.com/openwrt/packages.git    
 sleep 3
 git clone -b main          --depth 1 https://github.com/jjm2473/openwrt-third.git      Jjm2473_PACKAGES/
 sleep 3
-git clone -b packages      --depth 1 https://github.com/xiaorouji/openwrt-passwall.git Passwall_PKG/
-sleep 3
 git clone -b master        --depth 1 https://github.com/fw876/helloworld.git           SSRP_SRC/
+sleep 3
+git clone -b main          --depth 1 https://github.com/xiaorouji/openwrt-passwall-packages.git Passwall_PKG/
 
 unalias wget
 exit 0

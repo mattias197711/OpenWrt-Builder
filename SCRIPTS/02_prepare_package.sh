@@ -241,7 +241,7 @@ rm -rf ./feeds/packages/net/v2raya
 mv -f ../Openwrt_PKG_MSTR/net/v2raya/ ./feeds/packages/net/v2raya/
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # Passwall
-git clone --single-branch -b luci --depth 1 https://github.com/xiaorouji/openwrt-passwall.git _tmp_luci-app-passwall
+git clone --single-branch -b main --depth 1 https://github.com/xiaorouji/openwrt-passwall.git _tmp_luci-app-passwall
 mv -f ./_tmp_luci-app-passwall/luci-app-passwall/ ./package/new/luci-app-passwall/
 rm -rf ./_tmp_luci-app-passwall
 echo '
