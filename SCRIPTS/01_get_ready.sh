@@ -9,8 +9,8 @@ LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github+json' -H 'X-GitHub-
 
 echo "LATESTRELEASE=$LATESTRELEASE" >> ./OPENWRT_GIT_TAG
 
-git clone --single-branch -b 'openwrt-23.05'  --depth 1  https://github.com/openwrt/openwrt.git openwrt_snapshot
-git clone --single-branch -b "$LATESTRELEASE" --depth 1  https://github.com/openwrt/openwrt.git openwrt
+git clone --single-branch -b 'openwrt-23.05'  --depth 1  https://github.com/openwrt/openwrt.git openwrt
+git clone --single-branch -b "$LATESTRELEASE" --depth 1  https://github.com/openwrt/openwrt.git openwrt_snapshot
 
 rm -rf ./openwrt/package/
 mv -f  ./openwrt_snapshot/package            ./openwrt/package
