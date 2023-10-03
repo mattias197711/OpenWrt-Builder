@@ -2,8 +2,8 @@
 set -e
 
 echo "Start            $(date)" | tee buildtime.txt
-git clone --single-branch -b master https://github.com/KaneGreen/OpenWrt-builder_R2S-x86.git
-cd OpenWrt-builder_R2S-x86
+git clone --single-branch -b master https://github.com/KaneGreen/OpenWrt-Builder.git
+cd OpenWrt-Builder
 
 echo "Clone Openwrt    $(date)" | tee -a ../buildtime.txt
 cp -f ./SCRIPTS/01_get_ready.sh ./01_get_ready.sh
