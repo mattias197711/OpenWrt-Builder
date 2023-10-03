@@ -124,9 +124,6 @@ git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone.git pa
 mv -f ../Lienol_MSTR/package/network/utils/fullconenat/                     ./package/new/fullconenat/
 
 ### 4. 软件包 ###
-# Patch netifd
-mkdir -p package/network/config/netifd/patches
-mv -f ../PATCH/netifd/100-system-linux-fix-autoneg-for-2.5G-5G-10G.patch ./package/network/config/netifd/patches/
 # dae
 mv -f ../Immortalwrt_PKG/net/dae  ./feeds/packages/net/dae
 mv -f ../Immortalwrt_PKG/net/daed ./feeds/packages/net/daed
