@@ -7,6 +7,12 @@ case ${MYOPENWRTTARGET} in
   x86)
     mv -f *combined* *manifest* ${MYWORKDIR}/
     ;;
+  *)
+    echo "Error: Unknown target"
+    echo "Please check your environment variable: MYOPENWRTTARGET"
+    echo "Current value is: ${MYOPENWRTTARGET}"
+    exit 1
+    ;;
 esac
 rm -rf ./*
 pushd ${MYWORKDIR} > /dev/null
