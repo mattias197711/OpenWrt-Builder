@@ -11,6 +11,7 @@ case ${MYOPENWRTTARGET} in
     echo "Error: Unknown target"
     echo "Please check your environment variable: MYOPENWRTTARGET"
     echo "Current value is: ${MYOPENWRTTARGET}"
+    rmdir ${MYWORKDIR}
     exit 1
     ;;
 esac
