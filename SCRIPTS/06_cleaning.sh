@@ -24,7 +24,7 @@ pushd ${MYWORKDIR} > /dev/null
   md5sum    openwrt* | tee    md5_$(date "+%Y%m%d").hash
   echo && echo
   rm -f *.img
-popd  > /dev/null
+popd > /dev/null
 mv -f ${MYWORKDIR}/* ./
 rmdir ${MYWORKDIR}
 exit 0
