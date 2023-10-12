@@ -3,9 +3,9 @@ alias wget="$(which wget) --https-only --retry-connrefused"
 set -e
 set -x
 # get the latest release version of 23.05
-#LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' -r | grep -v 'rc' | grep 'v23' | sort -r | head -n 1)
+LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' -r | grep -v 'rc' | grep 'v23' | sort -r | head -n 1)
 # get the RC release version of 23.05
-LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' -r | grep 'rc' | grep 'v23' | sort -r | head -n 1)
+#LATESTRELEASE=$(curl -sSf -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' https://api.github.com/repos/openwrt/openwrt/tags | jq '.[].name' -r | grep 'rc' | grep 'v23' | sort -r | head -n 1)
 
 echo "LATESTRELEASE=$LATESTRELEASE" >> ./OPENWRT_GIT_TAG
 
