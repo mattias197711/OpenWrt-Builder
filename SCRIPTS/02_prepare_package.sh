@@ -217,6 +217,7 @@ mv -f ../SSRP_SRC/gn/                                 ./package/new/gn/
 mv -f ../SSRP_SRC/lua-neturl/                         ./package/new/lua-neturl/
 mv -f ../SSRP_SRC/naiveproxy/                         ./package/new/naiveproxy/
 mv -f ../SSRP_SRC/redsocks2/                          ./package/new/redsocks2/
+mv -f ../SSRP_SRC/shadow-tls/                         ./package/new/shadow-tls/
 mv -f ../SSRP_SRC/shadowsocks-rust/                   ./package/new/shadowsocks-rust/
 mv -f ../SSRP_SRC/shadowsocksr-libev/                 ./package/new/shadowsocksr-libev/
 mv -f ../SSRP_SRC/simple-obfs/                        ./package/new/simple-obfs/
