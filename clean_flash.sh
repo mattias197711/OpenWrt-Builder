@@ -65,25 +65,65 @@ function check_hash {
     fi
 }
 
+function copy_so_file_to_pwd {
+    local linkname=$(basename "$1")
+    if [ ! -f "${linkname}" ] ; then    
+        if [ -L "$1" ] ; then
+            local sofile=$(readlink -f "$1")
+            local soname=$(basename "${sofile}")
+            cp -f "${sofile}" ./
+            ln -s "${soname}" "${linkname}"
+        elif [ -f "$1" ] ; then
+            cp -f "$1" ./
+        else
+            color_echo BOLDred "无法找到文件$1"
+            exit 136
+        fi
+    fi
+}
+
 cd /tmp || exit 135
-[ -d "uploads" ] || mkdir uploads && cd uploads || exit 134
+[ -d 'uploads' ] || mkdir uploads && cd uploads || exit 134
 
 type_image openwrt
 
 color_echo BOLDred '您确认要开始刷机吗？'
 color_echo red '此操作将清空您的MicroSD卡上的数据。'
-color_echo red '如果您打算放弃操作，请在20秒内按下Ctrl+C组合键。'
-( set -x ; sleep 20 )
+mytimeout=20
+color_echo red "如果您打算放弃操作，请在${mytimeout}秒内按下Ctrl+C组合键。"
+for i in $(seq ${mytimeout} -1 1) ; do
+    echo -ne "\r\t\033[31m${i}秒\033[00m后将开始刷机...\t"
+    sleep 1
+done
+echo -ne "\r\t\033[31m0秒\033[00m后将开始刷机...\t\r"
 color_echo green '已启动刷机流程...\n请不要操作键盘等输入设备，并保持电源接通。'
+
 cp -f "$(which busybox)" ./
+cp -f "$(which bash)" ./
 if type shred >/dev/null 2>&1 ; then
     cp -f "$(which shred)" ./
 fi
+
+[ -d 'lib' ] || mkdir lib && cd lib || exit 134
+for i in $(ldd "$(which busybox)" | awk 'NF == 4 {print $3}; NF == 2 {print $1}') ; do
+    copy_so_file_to_pwd "${i}"
+done
+for i in $(ldd "$(which bash)" | awk 'NF == 4 {print $3}; NF == 2 {print $1}') ; do
+    copy_so_file_to_pwd "${i}"
+done
+if type shred >/dev/null 2>&1 ; then
+    for i in $(ldd "$(which shred)" | awk 'NF == 4 {print $3}; NF == 2 {print $1}') ; do
+        copy_so_file_to_pwd "${i}"
+    done
+fi
+export LD_LIBRARY_PATH="$(pwd)"
+cd .. || exit 134
+
 check_hash sha256
 check_hash md5
-if [ "${IMAGE_GZ}" == "N" ] ; then
+if [ "${IMAGE_GZ}" == 'N' ] ; then
     mv "${IMAGE_NAME}" firmware.img
-elif [ "${IMAGE_GZ}" == "Y" ] ; then
+elif [ "${IMAGE_GZ}" == 'Y' ] ; then
     if gzip -t "${IMAGE_NAME}" ; then
         color_echo green '压缩包测试通过'
     else
@@ -120,5 +160,6 @@ elif [ -f firmware.img.gz ] ; then
 fi
 color_echo green '刷机完成，稍后将执行重启...'
 ./busybox sleep 5
+cd /tmp && rm -rf /tmp/uploads
 color_echo BOLDgreen '开始重启...'
 echo b > /proc/sysrq-trigger
