@@ -7,8 +7,8 @@ LATESTRELEASE=$(curl -sSf -H 'X-GitHub-Api-Version: 2022-11-28' https://api.gith
 
 echo "LATESTRELEASE=$LATESTRELEASE" >> ./OPENWRT_GIT_TAG
 
-git clone --single-branch -b 'openwrt-23.05'  --depth 1  https://github.com/openwrt/openwrt.git openwrt
-git clone --single-branch -b "$LATESTRELEASE" --depth 1  https://github.com/openwrt/openwrt.git openwrt_snapshot
+git clone --single-branch -b 'openwrt-23.05'  --depth 1  https://github.com/openwrt/openwrt.git openwrt_snapshot
+git clone --single-branch -b "$LATESTRELEASE" --depth 1  https://github.com/openwrt/openwrt.git openwrt
 
 rm -rf ./openwrt/package/
 mv -f  ./openwrt_snapshot/package            ./openwrt/package
