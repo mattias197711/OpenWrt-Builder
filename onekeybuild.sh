@@ -2,7 +2,7 @@
 set -e
 
 echo "Start            $(date)" | tee buildtime.txt
-git clone --single-branch -b master https://github.com/KaneGreen/OpenWrt-Builder.git
+git clone --single-branch -b master https://github.com/mattias197711/OpenWrt-Builder.git
 cd OpenWrt-Builder
 
 echo "Clone Openwrt    $(date)" | tee -a ../buildtime.txt
