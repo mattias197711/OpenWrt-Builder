@@ -124,9 +124,6 @@ git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone.git pa
 mv -f ../Lienol_MSTR/package/network/utils/fullconenat/                     ./package/new/fullconenat/
 
 ### 4. 软件包 ###
-# Patch netifd
-mkdir -p package/network/config/netifd/patches
-mv -f ../PATCH/netifd/100-system-linux-fix-autoneg-for-2.5G-5G-10G.patch ./package/network/config/netifd/patches/
 # dae
 mv -f ../Immortalwrt_PKG/net/dae  ./feeds/packages/net/dae
 mv -f ../Immortalwrt_PKG/net/daed ./feeds/packages/net/daed
@@ -177,6 +174,11 @@ ln -sf ../../../feeds/packages/net/ddns-scripts_aliyun ./package/feeds/packages/
 # IPv6 兼容助手
 mv -f ../Coolsnowwolf_MSTR/package/lean/ipv6-helper/ ./package/new/ipv6-helper/
 patch -p1 < ../PATCH/odhcp6c/1002-odhcp6c-support-dhcpv6-hotplug.patch
+# odhcpd IPv6
+mkdir -p package/network/services/odhcpd/patches
+mv -f ../PATCH/odhcpd/0001-config-allow-configuring-max-limit-for-preferred-and.patch ./package/network/services/odhcpd/patches/
+mkdir -p                          files/etc/hotplug.d/iface
+mv -f ../PATCH/odhcpd/99-odhcpd ./files/etc/hotplug.d/iface/
 # OpenClash
 git clone --single-branch -b master --depth 1 https://github.com/vernesong/OpenClash.git package/new/luci-app-openclash
 # SSRP
@@ -215,6 +217,7 @@ mv -f ../SSRP_SRC/gn/                                 ./package/new/gn/
 mv -f ../SSRP_SRC/lua-neturl/                         ./package/new/lua-neturl/
 mv -f ../SSRP_SRC/naiveproxy/                         ./package/new/naiveproxy/
 mv -f ../SSRP_SRC/redsocks2/                          ./package/new/redsocks2/
+mv -f ../SSRP_SRC/shadow-tls/                         ./package/new/shadow-tls/
 mv -f ../SSRP_SRC/shadowsocks-rust/                   ./package/new/shadowsocks-rust/
 mv -f ../SSRP_SRC/shadowsocksr-libev/                 ./package/new/shadowsocksr-libev/
 mv -f ../SSRP_SRC/simple-obfs/                        ./package/new/simple-obfs/

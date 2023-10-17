@@ -7,6 +7,13 @@ case ${MYOPENWRTTARGET} in
   x86)
     mv -f *combined* *manifest* ${MYWORKDIR}/
     ;;
+  *)
+    echo "Error: Unknown target"
+    echo "Please check your environment variable: MYOPENWRTTARGET"
+    echo "Current value is: ${MYOPENWRTTARGET}"
+    rmdir ${MYWORKDIR}
+    exit 1
+    ;;
 esac
 rm -rf ./*
 pushd ${MYWORKDIR} > /dev/null
@@ -17,7 +24,7 @@ pushd ${MYWORKDIR} > /dev/null
   md5sum    openwrt* | tee    md5_$(date "+%Y%m%d").hash
   echo && echo
   rm -f *.img
-popd  > /dev/null
+popd > /dev/null
 mv -f ${MYWORKDIR}/* ./
 rmdir ${MYWORKDIR}
 exit 0

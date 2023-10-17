@@ -2,8 +2,8 @@
 set -e
 
 echo "Start            $(date)" | tee buildtime.txt
-git clone --single-branch -b master https://github.com/KaneGreen/OpenWrt-builder_R2S-x86.git
-cd OpenWrt-builder_R2S-x86
+git clone --single-branch -b master https://github.com/KaneGreen/OpenWrt-Builder.git
+cd OpenWrt-Builder
 
 echo "Clone Openwrt    $(date)" | tee -a ../buildtime.txt
 cp -f ./SCRIPTS/01_get_ready.sh ./01_get_ready.sh
@@ -20,7 +20,7 @@ echo "Modification     $(date)" | tee -a ../../buildtime.txt
 /bin/bash ./05_create_acl_for_luci.sh -a
 
 echo "Make Defconfig   $(date)" | tee -a ../../buildtime.txt
-[ -f "../SEED/${MYOPENWRTTARGET}.config.seed" ] || MYOPENWRTTARGET='R2S'
+[ -f "../SEED/${MYOPENWRTTARGET}.config.seed" ] || export MYOPENWRTTARGET='R2S'
 cp -f "../SEED/${MYOPENWRTTARGET}.config.seed" .config
 cat ../SEED/more.seed >> .config
 make defconfig
