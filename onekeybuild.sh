@@ -26,14 +26,15 @@ cat ../SEED/more.seed >> .config
 make defconfig
 
 echo "Make Download    $(date)" | tee -a ../../buildtime.txt
-make download -j8
+make download -j4
 
 echo "Make Toolchain   $(date)" | tee -a ../../buildtime.txt
-[[ ${MYMAKENUMBER} =~ ^[0-9]+$ ]] && MYMAKENUMBER=4
+[[ ${MYMAKENUMBER} =~ ^[0-9]+$ ]] && MYMAKENUMBER=1
 make toolchain/install -j${MYMAKENUMBER}
 
 echo "Compile Openwrt  $(date)" | tee -a ../../buildtime.txt
-make -j${MYMAKENUMBER} V=w
+#make -j${MYMAKENUMBER} V=w
+make -j1 V=sc
 
 cd ../..
 echo "Finished         $(date)" | tee -a buildtime.txt
