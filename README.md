@@ -47,6 +47,7 @@ Get the one-key compilation script: onekeybuild.sh . Modify the script according
 Make sure there is no directory or file with the same name in the working directory: OpenWrt-Builder, buildtime.txt.
 MYOPENWRTTARGETSpecify the compiled firmware through environment variables : R2S, x86; note that it is case sensitive, and the R2S firmware is compiled by default.
 MYMAKENUMBERSpecify the number of parallel compilations through environment variables . The default is 4 parallels.
+
 Use bash to execute the script and start compilation.
 grateful
 QiuSimons
