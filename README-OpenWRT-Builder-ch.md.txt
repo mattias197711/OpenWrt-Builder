@@ -2,9 +2,9 @@
 This repository is going to keep using the term "**master**". It will **never change**.
 I **refuse** to switch to "main".
 
-## R2S 基于原生 OpenWRT 的固件编译脚本 (AS IS, NO WARRANTY!!!)
-### 请勿用于商业用途!!!
-**同时也包含了 x86_64 版本**
+R2S is based on native OpenWRT firmware compilation script (AS IS, NO WARRANTY!!!)
+Please do not use it for commercial purposes!!!
+Also includes x86_64 version
 
 ### 发布地址：
 （可能会翻车，风险自担，需要登录 GitHub 账号后才能下载，不提供任何形式的技术支持）  
