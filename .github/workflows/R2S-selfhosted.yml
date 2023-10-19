@@ -10,7 +10,7 @@ on:
 
 env:
   UPLOAD_FIRMWARE: true
-  TZ: Asia/Shanghai
+  TZ: Europe/Stockholm
   MYOPENWRTTARGET: R2S
 
 jobs:
