@@ -95,7 +95,8 @@ for i in $(seq ${mytimeout} -1 1) ; do
     echo -ne "\r\t\033[31m${i}秒\033[00m后将开始刷机...\t"
     sleep 1
 done
-echo -ne "\r\t\033[31m0秒\033[00m后将开始刷机...\t\r"
+echo -ne "\r\t\033[31m0秒\033[00m后将开始刷机...\t"
+echo -ne "\r                                 "
 color_echo green '已启动刷机流程...\n请不要操作键盘等输入设备，并保持电源接通。'
 
 cp -f "$(which busybox)" ./
@@ -159,7 +160,5 @@ elif [ -f firmware.img.gz ] ; then
     ./busybox gzip -dc firmware.img.gz | ./busybox dd conv=fsync bs=8M of=/dev/mmcblk0
 fi
 color_echo green '刷机完成，稍后将执行重启...'
-./busybox sleep 5
-cd /tmp && rm -rf /tmp/uploads
 color_echo BOLDgreen '开始重启...'
 echo b > /proc/sysrq-trigger
